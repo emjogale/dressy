@@ -6,10 +6,10 @@ const itemSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Item MUST have a title!!!']
     },
-    img: {
-      type: String,
-      required: true
-    },
+    // img: {
+    //   type: String,
+    //   required: true
+    // },
     category: {
       type: String,
       required: [true, 'Please specify a category']

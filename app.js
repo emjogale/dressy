@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const config = require('./utils/config');
-// everything to do with the express application
+const morgan = require('morgan');
 const express = require('express');
+const config = require('./utils/config');
 
 const app = express();
-const morgan = require('morgan');
 
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');

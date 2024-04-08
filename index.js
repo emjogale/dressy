@@ -1,7 +1,3 @@
-const dotenv = require('dotenv');
-
-const config = require('./utils/config');
-
 const app = require('./app'); // the actual Express application
 
 // console.log('the environment is', app.get('env'));

@@ -13,48 +13,97 @@ const Item = require('./../models/item');
 //   next();
 // };
 
-exports.getAllItems = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    requestedAt: req.requestTime
-    // results: items.length,
-    // data: {
-    //   items: items
-    // }
-  });
+exports.getAllItems = async (req, res) => {
+  try {
+    const allItems = await Item.find({});
+    res.status(200).json({
+      status: 'success',
+      results: allItems.length,
+      data: {
+        allItems
+      }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
 
-exports.getItemById = (req, res) => {
-  // convert id to a number
-  // const id = req.params.id * 1;
-  // const item = items.find(x => x.id === id);
-
-  res.status(200).json({
-    status: 'success'
-    // data: {
-    //   item: item
-    // }
-  });
+exports.getItemById = async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        item
+      }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
 
-exports.createItem = (req, res) => {
-  res.status(201).json({
-    status: 'success'
-  });
+exports.createItem = async (req, res) => {
+  try {
+    const { title, desc, category, size, price } = req.body;
+    const item = new Item({
+      title: title,
+      desc: desc,
+      category: category,
+      size: size,
+      price: price
+    });
+    const newItem = await item.save();
+    res.status(201).json({
+      status: 'success',
+      data: {
+        item: newItem
+      }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Invalid data sent!'
+    });
+  }
 };
 
-exports.updateItem = (req, res) => {
-  res.status(204).json({
-    status: 'success',
-    data: {
-      item: 'Updated item here'
-    }
-  });
+exports.updateItem = async (req, res) => {
+  try {
+    const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        item: updatedItem
+      }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
 
-exports.deleteItem = (req, res) => {
-  res.status(204).json({
-    status: 'success',
-    data: null
-  });
+exports.deleteItem = async (req, res) => {
+  try {
+    await Item.findByIdAndDelete(req.params.id);
+    res.status(204).json({
+      status: 'success',
+      data: null
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  }
 };
