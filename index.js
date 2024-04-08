@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 
-dotenv.config({ path: './.env' });
+const config = require('./utils/config');
 
 const app = require('./app'); // the actual Express application
 

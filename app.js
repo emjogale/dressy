@@ -1,10 +1,22 @@
+const mongoose = require('mongoose');
+const config = require('./utils/config');
 // everything to do with the express application
 const express = require('express');
+
 const app = express();
 const morgan = require('morgan');
 
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
+
+mongoose
+  .connect(config.MONGODB_URI)
+  .then(() => {
+    console.log('connected to MongoDB');
+  })
+  .catch(err => {
+    err('error connectiong to MongoDB', err.message);
+  });
 
 // middleware
 if (process.env.NODE_ENV === 'development') {
