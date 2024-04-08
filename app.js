@@ -9,13 +9,12 @@ const morgan = require('morgan');
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
 
+mongoose.set('strictQuery', false);
 mongoose
   .connect(config.MONGODB_URI)
-  .then(() => {
-    console.log('connected to MongoDB');
-  })
+  .then(() => console.log('connected to MongoDB'))
   .catch(err => {
-    err('error connectiong to MongoDB', err.message);
+    console.log('error connectiong to MongoDB', err.message);
   });
 
 // middleware

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-const ItemSchema = new mongoose.Schema(
+const itemSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true
+      required: [true, 'Item MUST have a title!!!']
     },
     img: {
       type: String,
@@ -34,4 +34,4 @@ const ItemSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Item', ItemSchema);
+module.exports = mongoose.model('Item', itemSchema);
