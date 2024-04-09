@@ -18,10 +18,8 @@ exports.getAllItems = async (req, res) => {
     const allItems = await Item.find({});
     res.status(200).json({
       status: 'success',
-      results: allItems.length,
-      data: {
-        allItems
-      }
+      results: allItems,
+      data: allItems
     });
   } catch (err) {
     res.status(404).json({
@@ -36,9 +34,7 @@ exports.getItemById = async (req, res) => {
     const item = await Item.findById(req.params.id);
     res.status(200).json({
       status: 'success',
-      data: {
-        item
-      }
+      data: item
     });
   } catch (err) {
     res.status(404).json({

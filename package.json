@@ -4,10 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start:prod": "NODE_ENV=production nodemon index.js",
-    "lint": "eslint",
-    "test": "node --test"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=test node --test",
+    "lint": "eslint ."
   },
   "author": "Emma Gale",
   "license": "ISC",
@@ -27,7 +27,8 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
-    "prettier": "^1.17.0"
+    "prettier": "^1.17.0",
+    "supertest": "^6.3.4"
   },
   "engines": {
     "node": ">=10.0"
