@@ -8,6 +8,7 @@ const app = express();
 
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
+const { unknownEndpoint } = require('./utils/middleware');
 
 mongoose.set('strictQuery', false);
 mongoose
@@ -35,5 +36,7 @@ app.use((req, res, next) => {
 // the routers are also middleware to be added to these specific routes
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
+
+app.all('*', unknownEndpoint);
 
 module.exports = app;
