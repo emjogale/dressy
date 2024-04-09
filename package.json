@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "start:prod": "NODE_ENV=production nodemon index.js"
+    "start:prod": "NODE_ENV=production nodemon index.js",
+    "lint": "eslint",
+    "test": "node --test"
   },
   "author": "Emma Gale",
   "license": "ISC",
