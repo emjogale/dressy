@@ -1,21 +1,11 @@
 const Item = require('./../models/item');
 
-// const items = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../dev-data/data/items.json`)
-// );
-// check if the req.body is empty middleware
-// exports.checkBody = (req, res, next) => {
-//   if (!req.body.title || !req.body.category) {
-//     return res
-//       .status(400)
-//       .json({ status: 'fail', message: 'missing title or category details' });
-//   }
-//   next();
-// };
-
 exports.getAllItems = async (req, res) => {
+  // make a shallow copy of the req.qery by destructuring
+  const queryObj = { ...req.query };
+  //TODO: add in exluded fields here for when we are filtering (95)
   try {
-    const allItems = await Item.find({});
+    const allItems = await Item.find(req.query);
     res.status(200).json({
       status: 'success',
       results: allItems,
@@ -46,14 +36,25 @@ exports.getItemById = async (req, res) => {
 
 exports.createItem = async (req, res) => {
   try {
-    const { title, desc, img, category, size, price } = req.body;
+    const {
+      title,
+      desc,
+      img,
+      category,
+      size,
+      price,
+      onSale,
+      secretItem
+    } = req.body;
     const item = new Item({
       title: title,
       img: img,
       desc: desc,
       category: category,
       size: size,
-      price: price
+      price: price,
+      onSale: onSale,
+      secretItem: secretItem
     });
     const newItem = await item.save();
     res.status(201).json({
