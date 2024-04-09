@@ -46,9 +46,10 @@ exports.getItemById = async (req, res) => {
 
 exports.createItem = async (req, res) => {
   try {
-    const { title, desc, category, size, price } = req.body;
+    const { title, desc, img, category, size, price } = req.body;
     const item = new Item({
       title: title,
+      img: img,
       desc: desc,
       category: category,
       size: size,
