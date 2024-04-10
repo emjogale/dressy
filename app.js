@@ -8,8 +8,9 @@ const app = express();
 
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
-const { errorHandler } = require('./utils/middleware');
+// const { errorHandler } = require('./utils/middleware');
 const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
 
 mongoose.set('strictQuery', false);
 mongoose
@@ -38,10 +39,12 @@ app.use((req, res, next) => {
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
 
-app.use(errorHandler);
+// app.use(errorHandler);
 // unknown endpoints
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
+
+app.use(globalErrorHandler);
 
 module.exports = app;

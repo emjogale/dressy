@@ -50,24 +50,27 @@ const sendErrorProd = (err, res) => {
 const errorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
+
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
-    if (err.name === 'CastError') {
+    let error = Object.create(err);
+    console.log('we have a prod mode error which is', error);
+    if (error.name === 'CastError') {
       console.log('yeah we have a cast error');
-      err = handleCastErrorDB(err);
-      sendErrorProd(err, res);
+      err = handleCastErrorDB(error);
+      sendErrorProd(error, res);
     }
-    if (err.code === 11000) {
+    if (error.code === 11000) {
       console.log('yeah we have a duplicate error');
-      err = handleDuplicateError(err);
-      sendErrorProd(err, res);
+      err = handleDuplicateError(error);
+      sendErrorProd(error, res);
     }
-    if (err.name === 'ValidationError') {
+    if (error.name === 'ValidationError') {
       console.log('yeah we have a validation error');
-      err = handleValidationError(err);
+      error = handleValidationError(error);
 
-      sendErrorProd(err, res);
+      sendErrorProd(error, res);
     }
   }
   next(err);
