@@ -5,9 +5,16 @@ const handleCastErrorDB = err => {
   return new AppError(message, 400);
 };
 
-const handleDuplicate = err => {
+const handleDuplicateError = err => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
   const message = `Duplicate field value: ${value} please use a unique username`;
+  return new AppError(message, 400);
+};
+
+const handleValidationError = err => {
+  const errors = Object.values(err.errors).map(x => x.message);
+  // maybe save the errors as an array so they can be put into a list or something
+  const message = `Invalid input data. ${errors.join('. ')}`;
   return new AppError(message, 400);
 };
 
@@ -53,7 +60,13 @@ const errorHandler = (err, req, res, next) => {
     }
     if (err.code === 11000) {
       console.log('yeah we have a duplicate error');
-      err = handleDuplicate(err);
+      err = handleDuplicateError(err);
+      sendErrorProd(err, res);
+    }
+    if (err.name === 'ValidationError') {
+      console.log('yeah we have a validation error');
+      err = handleValidationError(err);
+
       sendErrorProd(err, res);
     }
   }
