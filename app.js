@@ -38,10 +38,10 @@ app.use((req, res, next) => {
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
 
+app.use(errorHandler);
 // unknown endpoints
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
-app.use(errorHandler);
 module.exports = app;

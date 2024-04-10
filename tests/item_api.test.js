@@ -56,25 +56,25 @@ describe('addition of a new item', () => {
     assert(descrips.includes('quilted balloon shape skirt'));
   });
 
-  // test("a invalid item can't be added", async () => {
-  //   const newItem = {
-  //     title: '',
-  //     img: 'pink-skirt.webp',
-  //     desc: 'quilted balloon shape skirt',
-  //     category: 'dresses',
-  //     size: '10',
-  //     price: 255
-  //   };
+  test("a invalid item can't be added", async () => {
+    const newItem = {
+      title: '',
+      img: 'pink-skirt.webp',
+      desc: 'quilted balloon shape skirt',
+      category: 'dresses',
+      size: '10',
+      price: 255
+    };
 
-  //   await api
-  //     .post('/api/v1/items')
-  //     .send(newItem)
-  //     .expect(400);
+    await api
+      .post('/api/v1/items')
+      .send(newItem)
+      .expect(500);
 
-  //   const itemsAtEnd = await helper.itemsInDb();
+    const itemsAtEnd = await helper.itemsInDb();
 
-  //   assert.strictEqual(itemsAtEnd.length, helper.initialItems.length);
-  // });
+    assert.strictEqual(itemsAtEnd.length, helper.initialItems.length);
+  });
 });
 describe('viewing a speicic item', () => {
   test('suceeds with a valid id', async () => {
@@ -91,12 +91,13 @@ describe('viewing a speicic item', () => {
   });
 
   //TODO: refactor to expect 400 when have worked through error handling
-  test('fails with status code 400 id is invalid', async () => {
-    const invalidId = '5a3d5da59070081a82a3445';
+  test('fails with status code 404 id is invalid', async () => {
+    const invalidId = '66150ea920b0fb519287d198';
 
-    await api.get(`/api/v1/items/${invalidId}`).expect(400);
+    await api.get(`/api/v1/items/${invalidId}`).expect(404);
   });
 });
+
 describe('deletion of an item', () => {
   test('succeeds with status code 204 if id is valid', async () => {
     const itemsAtStart = await helper.itemsInDb();

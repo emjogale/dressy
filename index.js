@@ -7,4 +7,4 @@ app.listen(config.PORT, () => {
 });
 
 //console.log('the environment is', app.get('env'));
-// console.log('the process env is', process.env);
+console.log('the process env is', process.env.NODE_ENV);
