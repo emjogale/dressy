@@ -1,0 +1,96 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header'); -%>
+  <body>
+    <%- include('layouts/navbar'); -%>
+    <!-- Header-->
+    <header class="banner create bg-dark">
+      <div
+        class="color-overlay d-flex justify-content-center align-items-center"
+      >
+        <div class="banner-text text-center">
+          <h1 class="display-4 fw-bolder">Login</h1>
+          <p class="lead fw-normal mb-0">Enter your details below</p>
+        </div>
+      </div>
+      <!-- </div> -->
+    </header>
+    <!-- Main Content-->
+    <main class="mb-4">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="my-5">
+              <!-- form -->
+               <% if(errors != null && errors.length > 0) { %>
+                <ul>
+                  <% for(let i=0; i<errors.length; i++) {%>
+                    <li>
+                      <%= errors[i] %>
+                    </li>
+                    <% } %>
+                </ul>
+                <% } %>
+             <form
+                action="/users/login"
+                method="POST"
+                id="login"
+              >
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="username"
+                    type="text"
+                    name="username"
+                    required
+                  />
+                  <label for="username">Username</label>
+                  
+                  <div class="invalid-feedback">A username is required.</div>
+                </div>
+
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="password"
+                    type="password"
+                    name="password"
+                    required
+                  />
+                  <label for="password">Password</label>
+                  <div
+                    class="invalid-feedback"
+                    data-sb-feedback="message:required"
+                    >
+                    A password is required.
+                  </div>
+               </div>
+
+               
+                <!-- Submit error message-->
+                <!---->
+                <!-- This is what your users will see when there is-->
+                <!-- an error submitting the form-->
+                <!-- <div class="d-none" id="submitErrorMessage">
+                  <div class="text-center text-danger mb-3">
+                    Error sending message!
+                  </div>-->
+                <!-- </div> -->
+                <!-- Submit Button-->
+                <button
+                  class="btn btn-primary text-uppercase"
+                  id="submitButton"
+                  type="submit"
+                >
+                  Login
+                </button>
+              </form>
+            
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include('layouts/footer'); -%> <%- include('layouts/scripts'); -%>
+ 
+  </body>
+</html>

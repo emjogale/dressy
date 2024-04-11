@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header'); -%>
+  <body>
+    <%- include('layouts/navbar'); -%>
+    <!-- Header-->
+    <header class="banner home bg-dark">
+      <div
+        class="color-overlay d-flex justify-content-center align-items-center"
+      >
+        <div class="banner-text text-center">
+          <h1 class="display-4 fw-bolder">Shop sustainably in style</h1>
+          <p class="lead fw-normal mb-0">Buy and sell preworn fashion</p>
+        </div>
+      </div>
+      <!-- </div> -->
+    </header>
+    <!-- Section-->
+    <section class="py-5">
+      <div class="container px-4 px-lg-5 mt-5">
+        <div
+          class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+        >
+        <% for(let i= 0; i< items.length; i++) { %>
+          <div class="col mb-5">
+            <div class="card h-100">
+              <!-- Product image-->
+              <a href="/items/<%= items[i]._id %>">
+                <img class="card-img-top" src="<%= items[i].img %>" alt="..." />
+                <!-- Product details-->
+
+                <div class="card-body p-4">
+                  <div class="text-center">
+                    <!-- Product name-->
+                    <h5 class="fw-bolder">
+                      <%= items[i].title %>
+                      <!--Product price-->
+                      <span class="text-muted"> £<%= items[i].price %> </span>
+                    </h5>
+                  </div>
+                </div>
+              </a>
+              <!-- Product actions-->
+              <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center">
+                  <button class="btn btn-outline-dark mt-auto" href="#">
+                    Add to cart
+                  </button>
+                </div>
+              </div>
+            </div>
+           </div>
+
+          <% } %>
+
+          
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <%- include('layouts/footer'); -%> <%- include('layouts/scripts'); -%>
+  </body>
+</html>

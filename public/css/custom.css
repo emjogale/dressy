@@ -1,0 +1,46 @@
+/* general styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* sectional styles */
+.banner {
+  position: relative;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+  background: no-repeat center center;
+  background-color: #6c757d;
+}
+.banner-title {
+  font-size: 4rem;
+}
+
+.color-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.banner.home {
+  min-height: 40vh;
+  background: url('../assets/img/banner-pic.jpg') center no-repeat;
+}
+.banner.create {
+  min-height: 40vh;
+  background: url('../assets/img/kate3-crop.jpg') center no-repeat;
+}
+
+/* card styles */
+
+/* make the banner picture and font size smaller on mobile devices */
+@media (max-width: 768px) {
+  .banner {
+    min-height: 30vh;
+    background: url('../assets/img/mobile-banner-pic.jpg');
+  }
+  .banner-title {
+    font-size: calc(1.525rem + 3.3vw);
+  }
+}

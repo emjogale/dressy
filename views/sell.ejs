@@ -1,0 +1,138 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header'); -%>
+  <body>
+    <%- include('layouts/navbar'); -%>
+    <!-- Header-->
+    <header class="banner create bg-dark">
+      <div
+        class="color-overlay d-flex justify-content-center align-items-center"
+      >
+        <div class="banner-text text-center">
+          <h1 class="display-4 fw-bolder">Sell an Item!</h1>
+          <p class="lead fw-normal mb-0">Enter the details below</p>
+        </div>
+      </div>
+      <!-- </div> -->
+    </header>
+    <!-- Main Content-->
+    <main class="mb-4">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            
+            <div class="my-5">
+              <!-- * * * * * * * * * * * * * * *-->
+              <!-- * * SB Forms Contact Form * *-->
+              <!-- * * * * * * * * * * * * * * *-->
+              <!-- This form is pre-integrated with SB Forms.-->
+              <!-- To make this form functional, sign up at-->
+              <!-- https://startbootstrap.com/solution/contact-forms-->
+              <!-- to get an API token!-->
+              <!-- <form
+                action="/posts/store"
+                method="POST"
+                enctype="multipart/form-data"
+              >
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="title"
+                    type="text"
+                    placeholder="Enter your title..."
+                    name="title"
+                  />
+                  <label for="title">Title</label>
+                  <div class="invalid-feedback">A name is required.</div>
+                </div>
+
+                <div class="form-floating">
+                  <textarea
+                    class="form-control"
+                    id="body"
+                    style="height: 12rem"
+                    name="body"
+                  ></textarea>
+                  <label for="message">Content</label>
+                  <div
+                    class="invalid-feedback"
+                    data-sb-feedback="message:required"
+                  >
+                    A message is required.
+                  </div>
+                </div>
+
+                <div class="form-floating">
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    class="form-control"
+                  />
+                  <label for="image">Image</label>
+                  <br />
+                  <!-- Submit success message-->
+                  <!---->
+                  <!-- This is what your users will see when the form-->
+                  <!-- has successfully submitted-->
+                  <!-- <div class="d-none" id="submitSuccessMessage">
+                  <div class="text-center mb-3">
+                    <div class="fw-bolder">Form submission successful!</div>
+                    To activate this form, sign up at
+                    <br />
+                    <a href="https://startbootstrap.com/solution/contact-forms"
+                      >https://startbootstrap.com/solution/contact-forms</a
+                    >
+                  </div>-->
+                </div>
+                <!-- Submit error message-->
+                <!---->
+                <!-- This is what your users will see when there is-->
+                <!-- an error submitting the form-->
+                <!-- <div class="d-none" id="submitErrorMessage">
+                  <div class="text-center text-danger mb-3">
+                    Error sending message!
+                  </div>-->
+                <!-- </div> -->
+                <!-- Submit Button-->
+                <!-- <button
+                  class="btn btn-primary text-uppercase"
+                  id="submitButton"
+                  type="submit"
+                >
+                  Send
+                </button>
+              </form> --> 
+              <form action="/" method="POST" >
+                
+      <input
+                    class="form-control"
+                    id="title"
+                    type="text"
+                    placeholder="Item title..."
+                    name="title"
+                  />
+                  <label for="title">Title</label>
+                  <button
+                  class="btn btn-primary text-uppercase"
+                  id="submitButton"
+                  type="submit"
+                >
+                  Send
+                </button>
+    </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include('layouts/footer'); -%> <%- include('layouts/scripts'); -%>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
+
+    
+  </body>
+</html>

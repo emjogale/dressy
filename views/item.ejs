@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header'); -%>
+  <body>
+    <%- include('layouts/navbar'); -%>
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('<%= item.image %>')">
+      <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-heading">
+              <h1><%= item.title %></h1>
+              <h2 class="subheading"></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Post Content-->
+    <article class="mb-4">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <%= item.body %>
+            <a href="#!"
+              ><img
+                class="img-fluid"
+                src="<%= item.img %>"
+                alt="<%= item.title %>"
+            /></a>
+            <div class="text-center mt-4">
+              <span class="caption text-muted mx-4"><%= item.desc %></span>
+
+              <button class="btn btn-outline-dark mt-auto" href="#">
+                Buy now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <%- include('layouts/footer'); -%> <%- include('layouts/scripts'); -%>
+  </body>
+</html>
