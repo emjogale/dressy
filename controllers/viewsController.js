@@ -11,11 +11,12 @@ exports.getHomeView = catchAsync(async (req, res) => {
 });
 
 // Display detail of specific item
-exports.getItemDetail = catchAsync(async (req, res, next) => {
-  //   console.log('we are in the get specific item function');
-  //   const item = await Item.findById(req.params.id);
-  //   res.render('item', { item });
-  res.send('route not implemented yet');
+exports.getItem = catchAsync(async (req, res, next) => {
+  const item = await Item.findOne({ slug: req.params.slug });
+  console.log('item is', item);
+
+  res.render('item', { item: item });
+  res.status(200).render('item', { errors: null });
 });
 
 exports.getSellForm = (req, res) => {
