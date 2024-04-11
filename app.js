@@ -14,6 +14,7 @@ app.use(express.static(path.join(`${__dirname}/public`)));
 
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
+const viewRouter = require('./routes/viewRoutes');
 // const { errorHandler } = require('./utils/middleware');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -38,36 +39,8 @@ app.use((req, res, next) => {
   next();
 });
 
-const items = [
-  {
-    title: 'long coat',
-    img: '#',
-    category: 'coats',
-    price: 355,
-    desc: 'long white coat',
-    size: '10'
-  },
-  {
-    title: 'applique dress',
-    img: '#',
-    category: 'dresses',
-    price: 455,
-    desc: 'long white organza dress wit applique',
-    size: '12'
-  }
-];
-
-loggedIn = true;
 // the routers are also middleware to be added to these specific routes
-app.get('/', (req, res) => {
-  res.status(200).render('index', { loggedIn: loggedIn, items: items });
-});
-app.get('/sell', (req, res) => {
-  res.status(200).render('sell', { loggedIn: loggedIn, errors: null });
-});
-app.get('/about', (req, res) => {
-  res.status(200).render('about');
-});
+app.use('/', viewRouter);
 app.use('/api/v1/items', itemRouter);
 app.use('/api/v1/users', userRouter);
 

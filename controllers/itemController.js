@@ -40,7 +40,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
   } = req.body;
   const item = new Item({
     title: title,
-    img: img,
+    img: '/assets/img/' + img.name,
     desc: desc,
     category: category,
     size: size,
