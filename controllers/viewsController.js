@@ -1,4 +1,5 @@
 const Item = require('../models/item');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 loggedIn = true;
@@ -14,9 +15,10 @@ exports.getHomeView = catchAsync(async (req, res) => {
 exports.getItem = catchAsync(async (req, res, next) => {
   const item = await Item.findOne({ slug: req.params.slug });
   console.log('item is', item);
-
-  res.render('item', { item: item });
-  res.status(200).render('item', { errors: null });
+  if (!item) {
+    return next(new AppError('There is no item with that name', 404));
+  }
+  res.status(200).render('item', { item: item, errors: null });
 });
 
 exports.getSellForm = (req, res) => {

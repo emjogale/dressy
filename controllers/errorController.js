@@ -19,32 +19,38 @@ const handleValidationErrorDB = err => {
   return new AppError(message, 400);
 };
 
-const sendErrorDev = (err, res) => {
-  res.status(err.statusCode).json({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack
-  });
-};
-
-const sendErrorProd = (err, res) => {
-  // Operational, trusted error: send message to client
-  if (err.isOperational) {
+//TODO: seem to be setting headers after they have been sent - there is some error in the error page!!
+const sendErrorDev = (err, req, res) => {
+  if (req.originalUrl.startsWith('/api')) {
     res.status(err.statusCode).json({
       status: err.status,
-      message: err.message
+      error: err,
+      message: err.message,
+      stack: err.stack
     });
-
-    // Programming or other unknown error: don't leak error details
   } else {
-    // 1) Log error
-    console.error('ERROR 😫🤓', err);
+    console.log('it doesnt start with api');
+    console.log('err status is', err.statusCode);
+    res.status(err.statusCode).render('notFound', { status: err.status });
+  }
+};
 
-    // 2) Send generic message
-    res.status(500).json({
-      status: 'error',
-      message: 'Something went very wrong!'
+const sendErrorProd = (err, req, res) => {
+  const msg = err.isOperational
+    ? err.message
+    : 'this is unexpected -- please contact support';
+  !err.isOperational && console.error('error 🥵', err);
+
+  if (req.originalUrl.match(/^[/]api[/]v/)) {
+    res.status(err.statusCode).json({
+      status: err.status,
+      message: msg,
+      stack: err.stack
+    });
+  } else {
+    res.status(err.statusCode).render('notFound', {
+      status: err.status,
+      msg: msg
     });
   }
 };
@@ -56,7 +62,7 @@ module.exports = (err, req, res, next) => {
   err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res);
+    sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
     error.name = err.name;
@@ -66,7 +72,7 @@ module.exports = (err, req, res, next) => {
     if (error.name === 'ValidationError')
       error = handleValidationErrorDB(error);
 
-    sendErrorProd(error, res);
+    sendErrorProd(error, req, res);
   }
   next(err);
 };
