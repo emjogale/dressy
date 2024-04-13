@@ -19,40 +19,47 @@ const handleValidationErrorDB = err => {
   return new AppError(message, 400);
 };
 
-//TODO: seem to be setting headers after they have been sent - there is some error in the error page!!
 const sendErrorDev = (err, req, res) => {
+  //1. API
   if (req.originalUrl.startsWith('/api')) {
-    res.status(err.statusCode).json({
+    return res.status(err.statusCode).json({
       status: err.status,
       error: err,
-      message: err.message,
+      msg: err.message,
       stack: err.stack
     });
-  } else {
-    console.log('it doesnt start with api');
-    console.log('err status is', err.statusCode);
-    res.status(err.statusCode).render('notFound', { status: err.status });
   }
+  //2. RENDERED WEBSITE
+  return res.status(err.statusCode).render('notFound', { msg: err.message });
 };
 
 const sendErrorProd = (err, req, res) => {
-  const msg = err.isOperational
-    ? err.message
-    : 'this is unexpected -- please contact support';
-  !err.isOperational && console.error('error 🥵', err);
-
-  if (req.originalUrl.match(/^[/]api[/]v/)) {
-    res.status(err.statusCode).json({
+  //1. API
+  if (req.originalUrl.startsWith('/api')) {
+    // operational error send message to client
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        msg: err.message
+      });
+    }
+    // programming or other unkown error - don't leak details
+    console.error('ERROR! 😨');
+  }
+  //2. RENDERED WEBSITE
+  if (err.isOperational) {
+    return res.status(err.statusCode).render('notFound', {
       status: err.status,
-      message: msg,
-      stack: err.stack
-    });
-  } else {
-    res.status(err.statusCode).render('notFound', {
-      status: err.status,
-      msg: msg
+      msg: err.message
     });
   }
+  //log the error
+  console.error('ERROR! 😨');
+  // send generic message
+  return res.status(err.statusCode).render('notFound', {
+    status: err.status,
+    msg: 'please try again later'
+  });
 };
 
 module.exports = (err, req, res, next) => {

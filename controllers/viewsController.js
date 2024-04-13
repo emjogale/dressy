@@ -7,7 +7,6 @@ loggedIn = true;
 exports.getHomeView = catchAsync(async (req, res) => {
   // get item data
   const items = await Item.find({});
-  console.log('items are', items);
   res.status(200).render('index', { loggedIn: loggedIn, items: items });
 });
 
