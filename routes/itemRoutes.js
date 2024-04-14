@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require('multer');
 const itemController = require('./../controllers/itemController');
 
 const router = express.Router();
@@ -14,7 +15,7 @@ const router = express.Router();
 router
   .route('/')
   .get(itemController.getAllItems)
-  .post(itemController.createItem);
+  .post(itemController.uploadItemImage, itemController.createItem);
 router
   .route('/:id')
   .get(itemController.getItemById)

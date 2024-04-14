@@ -20,56 +20,107 @@
       <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
-            
             <div class="my-5">
-              <!-- * * * * * * * * * * * * * * *-->
-              <!-- * * SB Forms Contact Form * *-->
-              <!-- * * * * * * * * * * * * * * *-->
-              <!-- This form is pre-integrated with SB Forms.-->
-              <!-- To make this form functional, sign up at-->
-              <!-- https://startbootstrap.com/solution/contact-forms-->
-              <!-- to get an API token!-->
-              <!-- <form
-                action="/posts/store"
+              <!-- form -->
+               <% if(errors != null && errors.length > 0) { %>
+                <ul>
+                  <% for(let i=0; i<errors.length; i++) {%>
+                    <li>
+                      <%= errors[i] %>
+                    </li>
+                    <% } %>
+                </ul>
+                <% } %>
+             <form
+                action="/api/v1/items"
                 method="POST"
                 enctype="multipart/form-data"
+                id="create-item"
               >
                 <div class="form-floating">
                   <input
                     class="form-control"
                     id="title"
                     type="text"
-                    placeholder="Enter your title..."
                     name="title"
-                  />
-                  <label for="title">Title</label>
-                  <div class="invalid-feedback">A name is required.</div>
+                    />
+                  <label for="title">Item</label>
+                  
+                  <div class="invalid-feedback">A title is required.</div>
                 </div>
 
                 <div class="form-floating">
                   <textarea
                     class="form-control"
-                    id="body"
+                    id="desc"
                     style="height: 12rem"
-                    name="body"
+                    name="desc"
+                    form="create-item"
+      
                   ></textarea>
-                  <label for="message">Content</label>
+                  <label for="desc">Description</label>
                   <div
                     class="invalid-feedback"
                     data-sb-feedback="message:required"
                   >
-                    A message is required.
+                    A description is required.
                   </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="category"
+                      >Category</label
+                    >
+                  </div>
+                  <select class="custom-select" id="category" name="category" required>
+                    <option selected value="">Choose...</option>
+                    <option value="dresses">Dresses</option>
+                    <option value="skirts">Skirts/Trousers</option>
+                    <option value="tops">Tops</option>
+                    <option value="jackets">Jackets/Coats</option>
+                  </select>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="size">Size</label>
+                  </div>
+                  <select class="custom-select" id="size" name="size" required>
+                    <option selected value="">Choose...</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </select>
                 </div>
 
                 <div class="form-floating">
                   <input
-                    type="file"
-                    name="image"
-                    id="image"
                     class="form-control"
+                    id="price"
+                    type="text"
+                    name="price"
+                    required
                   />
-                  <label for="image">Image</label>
+                  <label for="price">Price</label>
+                  <div
+                    class="invalid-feedback"
+                    data-sb-feedback="message:required"
+                    >
+                    A price is required.
+                  </div>
+               </div>
+
+                <div class="form-floating">
+                  <input
+                    type="file"
+                    name="img"
+                    id="img"
+                    class="form-control"
+                    form="create-item"
+                    required
+                  />
+                  <label for="img">Image</label>
                   <br />
                   <!-- Submit success message-->
                   <!---->
@@ -95,44 +146,20 @@
                   </div>-->
                 <!-- </div> -->
                 <!-- Submit Button-->
-                <!-- <button
+                <button
                   class="btn btn-primary text-uppercase"
                   id="submitButton"
                   type="submit"
                 >
-                  Send
+                  Upload item
                 </button>
-              </form> --> 
-              <form action="/" method="POST" >
-                
-      <input
-                    class="form-control"
-                    id="title"
-                    type="text"
-                    placeholder="Item title..."
-                    name="title"
-                  />
-                  <label for="title">Title</label>
-                  <button
-                  class="btn btn-primary text-uppercase"
-                  id="submitButton"
-                  type="submit"
-                >
-                  Send
-                </button>
-    </form>
-            </div>
+              </form>
+            
           </div>
         </div>
       </div>
     </main>
     <%- include('layouts/footer'); -%> <%- include('layouts/scripts'); -%>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
-
     
   </body>
 </html>

@@ -6,9 +6,8 @@ const handleCastErrorDB = err => {
 };
 
 const handleDuplicateFieldsDB = err => {
-  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-  console.log(value);
-
+  const value = err.message.match(/(["'])(\\?.)*?\1/)[0];
+  //1. API
   const message = `Duplicate field value: ${value}. Please use another value!`;
   return new AppError(message, 400);
 };
@@ -21,6 +20,7 @@ const handleValidationErrorDB = err => {
 
 const sendErrorDev = (err, req, res) => {
   //1. API
+
   if (req.originalUrl.startsWith('/api')) {
     return res.status(err.statusCode).json({
       status: err.status,
@@ -30,7 +30,10 @@ const sendErrorDev = (err, req, res) => {
     });
   }
   //2. RENDERED WEBSITE
-  return res.status(err.statusCode).render('notFound', { msg: err.message });
+  console.error('ERROR! 😨', err);
+  return res.status(err.statusCode).render('notFound', {
+    msg: err.message
+  });
 };
 
 const sendErrorProd = (err, req, res) => {
@@ -44,9 +47,10 @@ const sendErrorProd = (err, req, res) => {
       });
     }
     // programming or other unkown error - don't leak details
-    console.error('ERROR! 😨');
+    console.error('ERROR! 😨', err);
   }
   //2. RENDERED WEBSITE
+  // operational error send message to client
   if (err.isOperational) {
     return res.status(err.statusCode).render('notFound', {
       status: err.status,
@@ -55,6 +59,7 @@ const sendErrorProd = (err, req, res) => {
   }
   //log the error
   console.error('ERROR! 😨');
+
   // send generic message
   return res.status(err.statusCode).render('notFound', {
     status: err.status,
@@ -72,7 +77,7 @@ module.exports = (err, req, res, next) => {
     sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
-    error.name = err.name;
+    error.message = err.message;
 
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);

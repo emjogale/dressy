@@ -1,7 +1,32 @@
 const AppError = require('../utils/appError');
+const multer = require('multer');
 const Item = require('./../models/item');
 const catchAsync = require('./../utils/catchAsync');
 
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/assets/img');
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1];
+    cb(null, `item-${Date.now()}.${ext}`);
+  }
+});
+
+const multerFilter = (req, file, cb) => {
+  // test if the uploaded file is an image
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image, please only upload images', 400), false);
+  }
+};
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+});
+
+exports.uploadItemImage = upload.single('img');
 exports.getAllItems = catchAsync(async (req, res) => {
   // make a shallow copy of the req.qery by destructuring
   const queryObj = { ...req.query };
@@ -28,19 +53,13 @@ exports.getItemById = catchAsync(async (req, res, next) => {
 });
 
 exports.createItem = catchAsync(async (req, res, next) => {
-  const {
-    title,
-    desc,
-    img,
-    category,
-    size,
-    price,
-    onSale,
-    secretItem
-  } = req.body;
+  console.log('req file is', req.file);
+  console.log('req body  is', req.body);
+  console.log('image is');
+  const { title, desc, category, size, price, onSale, secretItem } = req.body;
   const item = new Item({
     title: title,
-    img: '/assets/img/' + img,
+    img: '/assets/img/' + req.file.filename,
     desc: desc,
     category: category,
     size: size,
