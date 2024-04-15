@@ -38,7 +38,7 @@ describe('when there are initially some items saved', () => {
 //   test('succeeds with valid data', async () => {
 //     const newItem = {
 //       title: 'ballooning skirt',
-//       img: 'pink-skirt.webp',
+//       img: '/assets/img/pink-skirt.webp',
 //       desc: 'quilted balloon shape skirt',
 //       category: 'dresses',
 //       size: '10',
@@ -77,7 +77,7 @@ describe('when there are initially some items saved', () => {
 
 //     assert.strictEqual(itemsAtEnd.length, helper.initialItems.length);
 //   });
-// });
+//});
 describe('viewing a speicic item', () => {
   test('suceeds with a valid id', async () => {
     const itemsAtStart = await helper.itemsInDb();

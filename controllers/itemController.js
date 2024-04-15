@@ -55,7 +55,6 @@ exports.getItemById = catchAsync(async (req, res, next) => {
 exports.createItem = catchAsync(async (req, res, next) => {
   console.log('req file is', req.file);
   console.log('req body  is', req.body);
-  console.log('image is');
   const { title, desc, category, size, price, onSale, secretItem } = req.body;
   const item = new Item({
     title: title,
