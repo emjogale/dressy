@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/', viewsController.getHomeView);
 router.get('/item/:slug', viewsController.getItem);
 router.get('/sell', viewsController.getSellForm);
+router.get('/users/register', viewsController.getRegisterForm);
 router.get('/about', (req, res) => {
   res.status(200).render('about');
 });

@@ -33,7 +33,7 @@
                 </ul>
                 <% } %>
              <form
-                action="/users/register"
+                action="/auth/register"
                 method="POST"
                 id="register"
               >
@@ -43,7 +43,7 @@
                     id="username"
                     type="text"
                     name="username"
-                    value="<%= username %>"
+                    value=""
                     required
                   />
                   <label for="username">Username</label>
@@ -57,7 +57,7 @@
                     id="password"
                     type="password"
                     name="password"
-                    value="<%= password %>"
+                    value=""
                     required
                   />
                   <label for="password">Password</label>

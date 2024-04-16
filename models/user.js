@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
 const Schema = mongoose.Schema;
 const validator = require('validator');
-const uniqueValidator = require('mongoose-unique-validator');
+// const uniqueValidator = require('mongoose-unique-validator');
 
-const iserSchema = new Schema({
+const userSchema = new Schema({
   username: {
     type: String,
     unique: [true, 'this username is already in use'],
@@ -21,7 +21,7 @@ const iserSchema = new Schema({
   password: {
     type: String,
     required: [true, 'please provide a password'],
-    minlength: 8
+    minlength: 6
   },
   passwordConfirm: {
     type: String,
@@ -30,5 +30,5 @@ const iserSchema = new Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-UserSchema.plugin(uniqueValidator);
+// userSchema.plugin(uniqueValidator);
 module.exports = User;

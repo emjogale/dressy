@@ -23,3 +23,7 @@ exports.getItem = catchAsync(async (req, res, next) => {
 exports.getSellForm = (req, res) => {
   res.status(200).render('sell', { loggedIn: loggedIn, errors: null });
 };
+
+exports.getRegisterForm = (req, res) => {
+  res.status(200).render('register', { errors: null });
+};

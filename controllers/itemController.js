@@ -27,6 +27,7 @@ const upload = multer({
 });
 
 exports.uploadItemImage = upload.single('img');
+
 exports.getAllItems = catchAsync(async (req, res) => {
   // make a shallow copy of the req.qery by destructuring
   const queryObj = { ...req.query };
