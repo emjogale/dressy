@@ -15,7 +15,6 @@ app.use(express.static(path.join(`${__dirname}/public`)));
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
 const viewRouter = require('./routes/viewRoutes');
-// const { errorHandler } = require('./utils/middleware');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 

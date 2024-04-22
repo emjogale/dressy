@@ -33,7 +33,7 @@
                 </ul>
                 <% } %>
              <form
-                action="/auth/register"
+                action="/api/v1/users/register"
                 method="POST"
                 id="register"
               >
@@ -44,12 +44,19 @@
                     type="text"
                     name="username"
                     value=""
-                    required
                   />
                   <label for="username">Username</label>
-                  
-                  <div class="invalid-feedback">A username is required.</div>
                 </div>
+
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="email"
+                    type="email"
+                    name="email"
+                    value=""
+                  />
+                  <label for="email">Email</label>
 
                 <div class="form-floating">
                   <input
@@ -58,28 +65,22 @@
                     type="password"
                     name="password"
                     value=""
-                    required
                   />
                   <label for="password">Password</label>
-                  <div
-                    class="invalid-feedback"
-                    data-sb-feedback="message:required"
-                    >
-                    A password is required.
-                  </div>
+                
+               </div>
+                <div class="form-floating">
+                  <input
+                    class="form-control"
+                    id="passwordConfirm"
+                    type="password"
+                    name="passwordConfirm"
+                    value=""
+                  />
+                  <label for="passwordConfirm">Password Confirm</label>
+                 
                </div>
 
-               
-                <!-- Submit error message-->
-                <!---->
-                <!-- This is what your users will see when there is-->
-                <!-- an error submitting the form-->
-                <!-- <div class="d-none" id="submitErrorMessage">
-                  <div class="text-center text-danger mb-3">
-                    Error sending message!
-                  </div>-->
-                <!-- </div> -->
-                <!-- Submit Button-->
                 <button
                   class="btn btn-primary text-uppercase"
                   id="submitButton"

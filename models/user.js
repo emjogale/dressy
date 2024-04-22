@@ -3,6 +3,7 @@ mongoose.set('strictQuery', true);
 const Schema = mongoose.Schema;
 const validator = require('validator');
 // const uniqueValidator = require('mongoose-unique-validator');
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
   username: {
@@ -25,8 +26,24 @@ const userSchema = new Schema({
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'please confirm your password']
+    required: [true, 'please confirm your password'],
+    /// This only works on SAVE (not findOneAndUpdate etc)
+    validate: {
+      validator: function(pswd) {
+        return pswd === this.password;
+      },
+      message: "Passwords don't match"
+    }
   }
+});
+
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined;
+  next();
 });
 
 const User = mongoose.model('User', userSchema);
