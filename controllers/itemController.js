@@ -1,6 +1,7 @@
 const AppError = require('../utils/appError');
 const multer = require('multer');
 const Item = require('./../models/item');
+const User = require('./../models/user');
 const catchAsync = require('./../utils/catchAsync');
 
 const multerStorage = multer.diskStorage({
@@ -57,6 +58,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
   console.log('req file is', req.file);
   console.log('req body  is', req.body);
   const { title, desc, category, size, price, onSale, secretItem } = req.body;
+  const user = await User.findById(body.userId);
   const item = new Item({
     title: title,
     img: '/assets/img/' + req.file.filename,
