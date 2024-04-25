@@ -11,7 +11,7 @@ exports.register = catchAsync(async (req, res, next) => {
         username: username,
         email: email,
         password: password,
-        passwordConfirm: passwordConfirm
+        // passwordConfirm: passwordConfirm
     })
     
     const savedUser = await newUser.save()

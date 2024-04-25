@@ -33,9 +33,12 @@ describe('when there are initially some items saved', () => {
   });
 });
 
+//TODO: need to refactor this as at present the test adds the helper image to the main img file. Is there another way to send it to a separate test img file? This would be via the multer destination...
+
+// Also - how do you mimic userid in the tests??
 describe('addition of a new item', () => {
   test('succeeds with valid data', async () => {
-    await api
+    const result = await api
       .post('/api/v1/items')
       .set('Content-type', 'multipart/form-data')
       .field('title', 'trousers')

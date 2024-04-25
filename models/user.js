@@ -24,17 +24,18 @@ const userSchema = new Schema({
     required: [true, 'please provide a password'],
     minlength: 6
   },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'please confirm your password'],
-    /// This only works on SAVE (not findOneAndUpdate etc)
-    validate: {
-      validator: function(pswd) {
-        return pswd === this.password;
-      },
-      message: "Passwords don't match"
-    }
-  },
+  // passwordConfirm: {
+  //   type: String,
+  //   required: [true, 'please confirm your password'],
+
+  //   validate: {
+  //     /// This only works on SAVE (not findOneAndUpdate etc)
+  //     validator: function(pswd) {
+  //       return pswd === this.password;
+  //     },
+  //     message: "Passwords don't match"
+  //   }
+  // },
   items: [
     {
       type: mongoose.Schema.Types.ObjectId,

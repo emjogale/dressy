@@ -15,8 +15,8 @@ describe('when there is initially one user in the db', () => {
     const user = new User({
       username: 'minty',
       email: 'peas@me.com',
-      password: 'sekret',
-      passwordConfirm: 'sekret'
+      password: 'sekret'
+      // passwordConfirm: 'sekret'
     });
 
     await user.save();
@@ -28,8 +28,8 @@ describe('when there is initially one user in the db', () => {
     const newUser = {
       username: 'bunty',
       email: 'bunt@me.com',
-      password: 'sekret',
-      passwordConfirm: 'sekret'
+      password: 'sekret'
+      // passwordConfirm: 'sekret'
     };
 
     await api
@@ -49,8 +49,8 @@ describe('when there is initially one user in the db', () => {
     const newUser = {
       username: 'minty',
       email: 'minty@me.com',
-      password: 'sekret',
-      passwordConfirm: 'sekret'
+      password: 'sekret'
+      // passwordConfirm: 'sekret'
     };
 
     const result = await api

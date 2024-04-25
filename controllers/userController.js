@@ -2,7 +2,10 @@ const User = require('./../models/user');
 const catchAsync = require('./../utils/catchAsync');
 
 exports.getAllUsers = catchAsync(async (req, res) => {
-  const allUsers = await User.find({});
+  const allUsers = await User.find({}).populate('items', {
+    title: 1,
+    price: 1
+  });
 
   res.status(200).json({
     status: 'success',
