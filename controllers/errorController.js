@@ -31,13 +31,14 @@ const sendErrorDev = (err, req, res) => {
     });
   }
   //2. RENDERED WEBSITE
-  console.error('Is this stage 4 in prod mode?? ERROR! 😨', err);
+  console.error('dev stage 3 error handling: ERROR! 😨', err);
   return res.status(err.statusCode).render('notFound', {
     msg: err.message
   });
 };
 
 const sendErrorProd = (err, req, res) => {
+  console.log('prod stage 3 error handling');
   //1. API
   if (req.originalUrl.startsWith('/api')) {
     // operational error send message to client
@@ -69,18 +70,19 @@ const sendErrorProd = (err, req, res) => {
 };
 
 module.exports = (err, req, res, next) => {
-  console.log('is this stage two?? of the errors??');
+  console.log('stage 1 error handling');
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    console.log('ok send a dev error stage 3 error handling');
+    console.log('dev stage 2 error handling');
     sendErrorDev(err, req, res);
   } else if (
     process.env.NODE_ENV === 'production' ||
     process.env.NODE_ENV === 'test'
   ) {
+    console.log('prod stage 2 error handling');
     let error = { ...err };
     error.message = err.message;
 

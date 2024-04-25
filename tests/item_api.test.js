@@ -34,25 +34,25 @@ describe('when there are initially some items saved', () => {
 });
 
 //TODO: how to change tests to allow for multer upload
-// describe('addition of a new item', () => {
-//   test('succeeds with valid data', async () => {
-//     const newItem = {
-//       title: 'ballooning skirt',
-//       img: '/assets/img/pink-skirt.webp',
-//       desc: 'quilted balloon shape skirt',
-//       category: 'dresses',
-//       size: '10',
-//       price: 255
-//     };
+describe('addition of a new item', () => {
+  test('succeeds with valid data', async () => {
+    const newItem = {
+      title: 'ballooning skirt',
+      img: '/assets/img/pink-skirt.webp',
+      desc: 'quilted balloon shape skirt',
+      category: 'dresses',
+      size: '10',
+      price: 255
+    };
 
-//     await api
-//       .post('/api/v1/items')
-//       .send(newItem)
-//       .expect(201)
-//       .expect('Content-Type', /application\/json/);
+    await api
+      .post('/api/v1/items')
+      .send(newItem)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
 
-//     const itemsAtEnd = await helper.itemsInDb();
-//     assert.strictEqual(itemsAtEnd.length, helper.initialItems.length + 1);
+    const itemsAtEnd = await helper.itemsInDb();
+    assert.strictEqual(itemsAtEnd.length, helper.initialItems.length + 1);
 
 //     const descrips = itemsAtEnd.map(x => x.desc);
 //     assert(descrips.includes('quilted balloon shape skirt'));
