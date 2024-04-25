@@ -22,6 +22,7 @@ const sendErrorDev = (err, req, res) => {
   //1. API
 
   if (req.originalUrl.startsWith('/api')) {
+    console.log('this is stage 4 in api dev mode');
     return res.status(err.statusCode).json({
       status: err.status,
       error: err,
@@ -30,7 +31,7 @@ const sendErrorDev = (err, req, res) => {
     });
   }
   //2. RENDERED WEBSITE
-  console.error('ERROR! 😨', err);
+  console.error('Is this stage 4 in prod mode?? ERROR! 😨', err);
   return res.status(err.statusCode).render('notFound', {
     msg: err.message
   });
@@ -68,14 +69,18 @@ const sendErrorProd = (err, req, res) => {
 };
 
 module.exports = (err, req, res, next) => {
-  // console.log(err.stack);
+  console.log('is this stage two?? of the errors??');
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
+    console.log('ok send a dev error stage 3 error handling');
     sendErrorDev(err, req, res);
-  } else if (process.env.NODE_ENV === 'production') {
+  } else if (
+    process.env.NODE_ENV === 'production' ||
+    process.env.NODE_ENV === 'test'
+  ) {
     let error = { ...err };
     error.message = err.message;
 

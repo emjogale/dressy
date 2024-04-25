@@ -4,8 +4,7 @@ const User = require('./../models/user');
 
 
 exports.register = catchAsync(async (req, res, next) => {
-    console.log('we are in the register function');
-    console.log('the req body is', req.body);
+    console.log('we are now into the register function');
     const { username, email, password, passwordConfirm } = req.body
     
     const newUser = new User({
