@@ -36,6 +36,10 @@ const userSchema = new Schema({
   //     message: "Passwords don't match"
   //   }
   // },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   items: [
     {
       type: mongoose.Schema.Types.ObjectId,

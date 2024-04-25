@@ -1,11 +1,11 @@
 // all functions related to authentication
+const jwt = require('jsonwebtoken')
 const catchAsync = require('../utils/catchAsync');
 const User = require('./../models/user');
 
 
 exports.register = catchAsync(async (req, res, next) => {
-    console.log('we are now into the register function');
-    const { username, email, password, passwordConfirm } = req.body
+    const { username, email, password, passwordConfirm } = req.body;
     
     const newUser = new User({
         username: username,
@@ -13,11 +13,16 @@ exports.register = catchAsync(async (req, res, next) => {
         password: password,
         // passwordConfirm: passwordConfirm
     })
-    
+
     const savedUser = await newUser.save()
+
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN
+    })
 
     res.status(201).json({
         status: 'success',
+        token,
         user: savedUser
     })
  })
