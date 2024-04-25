@@ -83,8 +83,10 @@ module.exports = (err, req, res, next) => {
     process.env.NODE_ENV === 'test'
   ) {
     console.log('prod stage 2 error handling');
+    // make a shallow copy of the err object and add in name and message fields
     let error = { ...err };
     error.message = err.message;
+    error.name = err.name;
 
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);

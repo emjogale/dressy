@@ -58,10 +58,10 @@ exports.createItem = catchAsync(async (req, res, next) => {
   console.log('req file is', req.file);
   console.log('req body  is', req.body);
   const { title, desc, category, size, price, onSale, secretItem } = req.body;
-  const user = await User.findById(body.userId);
+  const user = await User.findById(req.body.userId);
   const item = new Item({
     title: title,
-    img: '/assets/img/' + req.file.filename,
+    img: req.file.filename,
     desc: desc,
     category: category,
     size: size,

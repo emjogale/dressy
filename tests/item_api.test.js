@@ -33,12 +33,30 @@ describe('when there are initially some items saved', () => {
   });
 });
 
-//TODO: how to change tests to allow for multer upload
 describe('addition of a new item', () => {
   test('succeeds with valid data', async () => {
+    await api
+      .post('/api/v1/items')
+      .set('Content-type', 'multipart/form-data')
+      .field('title', 'trousers')
+      .field('category', 'trousers')
+      .field('price', 35)
+      .field('desc', 'trousers')
+      .field('size', '10')
+      .attach('img', 'tests/img/coat.webp')
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const itemsAtEnd = await helper.itemsInDb();
+    assert.strictEqual(itemsAtEnd.length, helper.initialItems.length + 1);
+
+    const descrips = itemsAtEnd.map(x => x.desc);
+    assert(descrips.includes('trousers'));
+  });
+
+  test("a invalid item can't be added", async () => {
     const newItem = {
-      title: 'ballooning skirt',
-      img: '/assets/img/pink-skirt.webp',
+      title: '',
       desc: 'quilted balloon shape skirt',
       category: 'dresses',
       size: '10',
@@ -48,37 +66,14 @@ describe('addition of a new item', () => {
     await api
       .post('/api/v1/items')
       .send(newItem)
-      .expect(201)
-      .expect('Content-Type', /application\/json/);
+      .expect(500);
 
     const itemsAtEnd = await helper.itemsInDb();
-    assert.strictEqual(itemsAtEnd.length, helper.initialItems.length + 1);
 
-//     const descrips = itemsAtEnd.map(x => x.desc);
-//     assert(descrips.includes('quilted balloon shape skirt'));
-//   });
-
-//   test("a invalid item can't be added", async () => {
-//     const newItem = {
-//       title: '',
-//       img: 'pink-skirt.webp',
-//       desc: 'quilted balloon shape skirt',
-//       category: 'dresses',
-//       size: '10',
-//       price: 255
-//     };
-
-//     await api
-//       .post('/api/v1/items')
-//       .send(newItem)
-//       .expect(500);
-
-//     const itemsAtEnd = await helper.itemsInDb();
-
-//     assert.strictEqual(itemsAtEnd.length, helper.initialItems.length);
-//   });
-//});
-describe('viewing a speicic item', () => {
+    assert.strictEqual(itemsAtEnd.length, helper.initialItems.length);
+  });
+});
+describe('viewing a specific item', () => {
   test('suceeds with a valid id', async () => {
     const itemsAtStart = await helper.itemsInDb();
 
@@ -92,11 +87,10 @@ describe('viewing a speicic item', () => {
     assert.notStrictEqual(foundItem.body.data, itemToView);
   });
 
-  //TODO: refactor to expect 400 when have worked through error handling
-  test('fails with status code 404 id is invalid', async () => {
-    const invalidId = '66150ea920b0fb519287d198';
+  test('fails with status code 400 if id is invalid', async () => {
+    const invalidId = '66150ea920b0fb';
 
-    await api.get(`/api/v1/items/${invalidId}`).expect(404);
+    await api.get(`/api/v1/items/${invalidId}`).expect(400);
   });
 });
 
