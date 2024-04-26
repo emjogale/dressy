@@ -1,39 +1,39 @@
-const mongoose = require('mongoose');
-mongoose.set('strictQuery', true);
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", true);
 const Schema = mongoose.Schema;
-const validator = require('validator');
-// const uniqueValidator = require('mongoose-unique-validator');
-const bcrypt = require('bcrypt');
+const validator = require("validator");
+// const uniqueValidator = require("mongoose-unique-validator");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   username: {
     type: String,
-    unique: [true, 'this username is already in use'],
-    required: [true, 'please provide a username'],
+    unique: [true, "this username is already in use"],
+    required: [true, "please provide a username"],
     lowercase: true
   },
   email: {
     type: String,
-    required: [true, 'please provide your email'],
+    required: [true, "please provide your email"],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'please provide a valid email']
+    validate: [validator.isEmail, "please provide a valid email"]
   },
   password: {
     type: String,
-    required: [true, 'please provide a password'],
+    required: [true, "please provide a password"],
     minlength: 6
   },
   // passwordConfirm: {
   //   type: String,
-  //   required: [true, 'please confirm your password'],
+  //   required: [true, "please confirm your password"],
 
   //   validate: {
   //     /// This only works on SAVE (not findOneAndUpdate etc)
   //     validator: function(pswd) {
   //       return pswd === this.password;
   //     },
-  //     message: "Passwords don't match"
+  //     message: "Passwords don"t match"
   //   }
   // },
   isAdmin: {
@@ -43,12 +43,12 @@ const userSchema = new Schema({
   items: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Item'
+      ref: "Item"
     }
   ]
 });
 
-userSchema.set('toJSON', {
+userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -56,8 +56,8 @@ userSchema.set('toJSON', {
   }
 });
 
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) {
+userSchema.pre("save", async function(next) {
+  if (!this.isModified("password")) {
     return next();
   }
   this.password = await bcrypt.hash(this.password, 12);
@@ -65,6 +65,6 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 // userSchema.plugin(uniqueValidator);
 module.exports = User;

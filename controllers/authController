@@ -1,28 +1,32 @@
 // all functions related to authentication
-const jwt = require('jsonwebtoken')
-const catchAsync = require('../utils/catchAsync');
-const User = require('./../models/user');
-
+const jwt = require("jsonwebtoken");
+const catchAsync = require("../utils/catchAsync");
+const User = require("./../models/user");
 
 exports.register = catchAsync(async (req, res, next) => {
-    const { username, email, password, passwordConfirm } = req.body;
-    
-    const newUser = new User({
-        username: username,
-        email: email,
-        password: password,
-        // passwordConfirm: passwordConfirm
-    })
+  const { username, email, password } = req.body;
+  const newUser = new User({
+    username: username,
+    email: email,
+    password: password
+    // passwordConfirm: passwordConfirm
+  });
 
-    const savedUser = await newUser.save()
+  const savedUser = await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRES_IN
-    })
+  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN
+  });
 
-    res.status(201).json({
-        status: 'success',
-        token,
-        user: savedUser
-    })
- })
+  res.status(201).json({
+    status: "success",
+    token,
+    data: {
+      user: savedUser
+    }
+  });
+});
+
+exports.login = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+});

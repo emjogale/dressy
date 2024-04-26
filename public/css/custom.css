@@ -25,11 +25,11 @@ a {
 
 .banner.home {
   min-height: 40vh;
-  background: url('../assets/img/banner-pic.jpg') center no-repeat;
+  background: url("../assets/img/banner-pic.jpg") center no-repeat;
 }
 .banner.create {
   min-height: 40vh;
-  background: url('../assets/img/kate3-crop.jpg') center no-repeat;
+  background: url("../assets/img/kate3-crop.jpg") center no-repeat;
 }
 
 /* card styles */
@@ -38,7 +38,7 @@ a {
 @media (max-width: 768px) {
   .banner {
     min-height: 30vh;
-    background: url('../assets/img/mobile-banner-pic.jpg');
+    background: url("../assets/img/mobile-banner-pic.jpg");
   }
   .banner-title {
     font-size: calc(1.525rem + 3.3vw);

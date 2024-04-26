@@ -1,22 +1,22 @@
-const Item = require('../models/item');
-const User = require('../models/user');
+const Item = require("../models/item");
+const User = require("../models/user");
 
 const initialItems = [
   {
-    title: 'long coat',
-    img: 'long-coat.webp',
-    category: 'coats',
+    title: "long coat",
+    img: "long-coat.webp",
+    category: "coats",
     price: 355,
-    desc: 'long white coat',
-    size: '10'
+    desc: "long white coat",
+    size: "10"
   },
   {
-    title: 'applique dress',
-    img: 'applique-dress.webp',
-    category: 'dresses',
+    title: "applique dress",
+    img: "applique-dress.webp",
+    category: "dresses",
     price: 455,
-    desc: 'long white organza dress wit applique',
-    size: '12'
+    desc: "long white organza dress wit applique",
+    size: "12"
   }
 ];
 

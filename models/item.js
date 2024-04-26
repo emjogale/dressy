@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+const mongoose = require("mongoose");
+const slugify = require("slugify");
 const itemSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'Item MUST have a title!!!'],
+    required: [true, "Item MUST have a title!!!"],
     trim: true,
-    maxLength: [40, 'item name must be less than 40 characters'],
-    minLength: [3, 'an item name must be more than 2 characters']
+    maxLength: [40, "item name must be less than 40 characters"],
+    minLength: [3, "an item name must be more than 2 characters"]
   },
   slug: String,
   img: {
@@ -19,20 +19,20 @@ const itemSchema = new mongoose.Schema({
 
   category: {
     type: String,
-    required: [true, 'Please specify a category']
+    required: [true, "Please specify a category"]
   },
   price: {
     type: Number,
-    required: [true, 'Please specify a price']
+    required: [true, "Please specify a price"]
   },
   desc: {
     type: String,
-    required: [true, 'Please describe the item'],
+    required: [true, "Please describe the item"],
     trim: true
   },
   size: {
     type: String,
-    required: [true, 'Please specify a size']
+    required: [true, "Please specify a size"]
   },
   onSale: {
     type: Boolean,
@@ -49,11 +49,11 @@ const itemSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: "User"
   }
 });
 
-itemSchema.set('toJSON', {
+itemSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -63,13 +63,13 @@ itemSchema.set('toJSON', {
 
 // Document middleware: runs before .save() and .create()
 // CREATE A SLUG BASED ON ITEM NAME
-itemSchema.pre('save', function(next) {
+itemSchema.pre("save", function(next) {
   this.slug = slugify(this.title, { lower: true });
   next();
 });
 
-// itemSchema.post('save', function(doc, next) {
-//   console.log('post doc is ', doc);
+// itemSchema.post("save", function(doc, next) {
+//   console.log("post doc is ", doc);
 //   next();
 // });
 
@@ -81,4 +81,4 @@ itemSchema.pre(/^find/, function(next) {
 
 // custom validators can go here
 
-module.exports = mongoose.model('Item', itemSchema);
+module.exports = mongoose.model("Item", itemSchema);
