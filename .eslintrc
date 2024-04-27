@@ -6,7 +6,7 @@
     "prettier/prettier": "error",
     "singleQuote": "off",
     "spaced-comment": "off",
-    "no-console": "warn",
+    "no-console": 0,
     "consistent-return": "off",
     "func-names": "off",
     "object-shorthand": "off",
@@ -20,10 +20,13 @@
       "error",
       { "argsIgnorePattern": "req|res|next|val|err" }
     ],
+    "object-curly-spacing": [
+        "error", "always"
+    ],
     "node/no-unpublished-require": [
       "error",
       {
-        "allowModules": [],
+        "allowModules": ["supertest"],
         "convertPath": null,
         "tryExtensions": [".js", ".json", ".node"]
       }

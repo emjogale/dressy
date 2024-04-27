@@ -4,8 +4,9 @@ const supertest = require("supertest");
 const mongoose = require("mongoose");
 const helper = require("./test_helper");
 const app = require("../app");
-const Item = require("../models/item");
+// const Item = require("../models/item");
 const User = require("../models/user");
+
 const api = supertest(app);
 
 describe("when there is initially one user in the db", () => {

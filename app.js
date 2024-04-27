@@ -2,8 +2,9 @@ const path = require("path");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const express = require("express");
-const config = require("./utils/config");
 const cors = require("cors");
+const config = require("./utils/config");
+
 const app = express();
 
 app.set("view engine", "ejs");

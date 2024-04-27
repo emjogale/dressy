@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+
 mongoose.set("strictQuery", true);
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 const validator = require("validator");
 // const uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require("bcrypt");
@@ -22,7 +23,8 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, "please provide a password"],
-    minlength: 6
+    minlength: 6,
+    select: false
   },
   // passwordConfirm: {
   //   type: String,
@@ -64,6 +66,10 @@ userSchema.pre("save", async function(next) {
   this.passwordConfirm = undefined;
   next();
 });
+
+userSchema.methods.correctPassword = async function(password, userPassword) {
+  return await bcrypt.compare(password, userPassword);
+};
 
 const User = mongoose.model("User", userSchema);
 // userSchema.plugin(uniqueValidator);

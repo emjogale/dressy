@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const helper = require("./test_helper");
 const app = require("../app");
 const Item = require("../models/item");
+
 const api = supertest(app);
 
 beforeEach(async () => {
@@ -13,7 +14,7 @@ beforeEach(async () => {
 });
 describe("when there are initially some items saved", () => {
   test("items are returned as json", async () => {
-    const response = await api
+    await api
       .get("/api/v1/items")
       .expect(200)
       .expect("Content-Type", /application\/json/);
@@ -38,7 +39,7 @@ describe("when there are initially some items saved", () => {
 // Also - how do you mimic userid in the tests??
 describe("addition of a new item", () => {
   test("succeeds with valid data", async () => {
-    const result = await api
+    await api
       .post("/api/v1/items")
       .set("Content-type", "multipart/form-data")
       .field("title", "trousers")
@@ -53,11 +54,11 @@ describe("addition of a new item", () => {
     const itemsAtEnd = await helper.itemsInDb();
     assert.strictEqual(itemsAtEnd.length, helper.initialItems.length + 1);
 
-    const descrips = itemsAtEnd.map(x => x.desc);
+    const descrips = itemsAtEnd.map(item => item.desc);
     assert(descrips.includes("trousers"));
   });
 
-  test("a invalid item can"t be added", async () => {
+  test("a invalid item cannot be added", async () => {
     const newItem = {
       title: "",
       desc: "quilted balloon shape skirt",
