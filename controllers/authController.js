@@ -38,13 +38,15 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // check this user is registered
   const user = await User.findOne({ email }).select("+password");
+  // use the correctPassword checker defined in the user model
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Incorrect password or email", 401));
+    return next(new AppError("Invalid password or email", 401));
   }
   // if all is correct then send token to user
   const token = signToken(user._id);
   res.status(200).json({
     status: "success",
-    token
+    token,
+    username: user.username
   });
 });

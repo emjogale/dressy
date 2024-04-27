@@ -59,11 +59,12 @@ userSchema.set("toJSON", {
 });
 
 userSchema.pre("save", async function(next) {
-  if (!this.isModified("password")) {
+  const user = this;
+  if (!user.isModified("password")) {
     return next();
   }
-  this.password = await bcrypt.hash(this.password, 12);
-  this.passwordConfirm = undefined;
+  user.password = await bcrypt.hash(user.password, 12);
+  user.passwordConfirm = undefined;
   next();
 });
 
