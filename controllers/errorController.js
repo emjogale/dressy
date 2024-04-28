@@ -4,6 +4,10 @@ const handleCastErrorDB = err => {
   const message = `Invalid ${err.path}: ${err.value}.`;
   return new AppError(message, 400);
 };
+const handleJsonWebTokenError = err => {
+  const message = `Invalid token`;
+  return new AppError(message, 401);
+};
 
 const handleDuplicateFieldsDB = err => {
   const value = err.message.match(/([""])(\\?.)*?\1/)[0];
@@ -92,6 +96,8 @@ module.exports = (err, req, res, next) => {
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
     if (error.name === "ValidationError")
       error = handleValidationErrorDB(error);
+    if (error.name === "JsonWebTokenError")
+      error = handleJsonWebTokenError(error);
 
     sendErrorProd(error, req, res);
   }

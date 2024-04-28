@@ -6,7 +6,7 @@
     "prettier/prettier": "error",
     "singleQuote": "off",
     "spaced-comment": "off",
-    "no-console": 0,
+    "no-console": "off",
     "consistent-return": "off",
     "func-names": "off",
     "object-shorthand": "off",
@@ -15,14 +15,12 @@
     "no-return-await": "off",
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
-    "prefer-destructuring": ["error", {"object": true, "array": false}],
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
     "no-unused-vars": [
       "error",
       { "argsIgnorePattern": "req|res|next|val|err" }
     ],
-    "object-curly-spacing": [
-        "error", "always"
-    ],
+    "object-curly-spacing": ["error", "always"],
     "node/no-unpublished-require": [
       "error",
       {
