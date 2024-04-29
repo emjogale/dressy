@@ -5,9 +5,12 @@ const Item = require("./../models/item");
 const User = require("./../models/user");
 const catchAsync = require("./../utils/catchAsync");
 
+const dest =
+  process.env.NODE_ENV === "test" ? "tests/img" : "public/assets/img";
+
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/assets/img");
+    cb(null, dest);
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split("/")[1];

@@ -58,7 +58,6 @@ describe("when there is initially one user in the db", () => {
       .post("/api/v1/users/register")
       .send(newUser)
       .expect(400);
-
     const usersAtEnd = await helper.usersInDb();
 
     assert(result.body.msg.includes("Duplicate field value"));
@@ -68,7 +67,8 @@ describe("when there is initially one user in the db", () => {
 
 describe("when a user is registered and there are some items in the database", () => {
   beforeEach(async () => {
-    // clear the database and add the initial items
+    // clear the database and add the initial items and users
+    await User.deleteMany({});
     await Item.deleteMany({});
     await Item.insertMany(helper.initialItems);
     // add patchy to users
@@ -83,6 +83,8 @@ describe("when a user is registered and there are some items in the database", (
       .send(patchy)
       .expect(201);
   });
+
+  //TODO: image goes to test image folder - but need to clear this at the start of tests?
   test("they can create a new item", async () => {
     const patchyLoginDetails = {
       email: "patchy@me.com",
@@ -112,8 +114,35 @@ describe("when a user is registered and there are some items in the database", (
     assert.strictEqual(itemsAtEnd.length, helper.initialItems.length + 1);
     assert(descrips.includes("trousers"));
   });
-});
 
+  test("a invalid item cannot be added", async () => {
+    const patchyLoginDetails = {
+      email: "patchy@me.com",
+      password: "sekret"
+    };
+    //login
+    const logInResponse = await api
+      .post("/api/v1/users/login")
+      .send(patchyLoginDetails);
+    const { token } = logInResponse.body;
+    const result = await api
+      .post("/api/v1/items")
+      .set("Content-type", "multipart/form-data")
+      .field("title", "trousers")
+      .field("category", "trousers")
+      .field("price", 35)
+      .field("desc", "")
+      .field("size", "10")
+      .attach("img", "tests/img/coat.webp")
+      .set({ Authorization: `Bearer ${token}` })
+      .expect(400)
+      .expect("Content-Type", /application\/json/);
+    const itemsAtEnd = await helper.itemsInDb();
+
+    assert.strictEqual(itemsAtEnd.length, helper.initialItems.length);
+    assert(result.body.msg.includes("Please describe the item"));
+  });
+});
 after(async () => {
   await mongoose.connection.close();
 });
