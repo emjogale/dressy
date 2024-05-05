@@ -20,6 +20,15 @@ const initialItems = [
   }
 ];
 
+const initialUsers = [
+  {
+    username: "minty",
+    email: "peas@me.com",
+    password: "sekret"
+    // passwordConfirm: "sekret"
+  }
+];
+
 const itemsInDb = async () => {
   const items = await Item.find({});
   return items.map(item => item.toJSON());
@@ -30,4 +39,4 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON());
 };
 
-module.exports = { initialItems, itemsInDb, usersInDb };
+module.exports = { initialItems, initialUsers, itemsInDb, usersInDb };

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 
-const itemSchema = new mongoose.Schema({
+const itemSchema = mongoose.Schema({
   title: {
     type: String,
     required: [true, "Item MUST have a title!!!"],

@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", true);
-const { Schema } = mongoose;
 const validator = require("validator");
 // const uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require("bcrypt");
 
-const userSchema = new Schema({
+const userSchema = mongoose.Schema({
   username: {
     type: String,
     unique: [true, "this username is already in use"],
