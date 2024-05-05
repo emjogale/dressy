@@ -78,7 +78,6 @@ exports.createItem = catchAsync(async (req, res, next) => {
   }
 
   const user = await User.findById(decodedToken.id);
-  console.log("user is", user);
   const item = new Item({
     title: title,
     img: req.file.filename,
@@ -94,7 +93,6 @@ exports.createItem = catchAsync(async (req, res, next) => {
   user.items = user.items.concat(newItem._id);
   await user.save();
 
-  console.log("user is now", user);
   res.status(201).json({
     status: "success",
     data: {

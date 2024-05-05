@@ -26,7 +26,6 @@ const sendErrorDev = (err, req, res) => {
   //1. API
 
   if (req.originalUrl.startsWith("/api")) {
-    console.log("this is stage 4 in api dev mode");
     return res.status(err.statusCode).json({
       status: err.status,
       error: err,
@@ -42,7 +41,6 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
-  console.log("prod stage 3 error handling");
   //1. API
   if (req.originalUrl.startsWith("/api")) {
     // operational error send message to client
@@ -74,19 +72,15 @@ const sendErrorProd = (err, req, res) => {
 };
 
 module.exports = (err, req, res, next) => {
-  console.log("stage 1 error handling");
-
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
   if (process.env.NODE_ENV === "development") {
-    console.log("dev stage 2 error handling");
     sendErrorDev(err, req, res);
   } else if (
     process.env.NODE_ENV === "production" ||
     process.env.NODE_ENV === "test"
   ) {
-    console.log("prod stage 2 error handling");
     // make a shallow copy of the err object and add in name and message fields
     let error = { ...err };
     error.message = err.message;

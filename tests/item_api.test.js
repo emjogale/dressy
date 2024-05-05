@@ -24,7 +24,6 @@ describe("when there are initially some items saved", () => {
     await Item.deleteMany({});
     await User.deleteMany({});
     const itemObjects = helper.initialItems.map(item => new Item(item));
-    // console.log("itemObjects are", itemObjects);
     const promiseArray = itemObjects.map(item => item.save());
 
     await Promise.all(promiseArray);
@@ -41,8 +40,8 @@ describe("when there are initially some items saved", () => {
       .get("/api/v1/items")
       .expect(200)
       .expect("Content-Type", /application\/json/);
-    console.log("res.body is", res.body);
-    assert.strictEqual(res.body.length, helper.initialItems.length);
+
+    assert.strictEqual(res.body.data.length, helper.initialItems.length);
   });
 
   test("there are two items", async () => {

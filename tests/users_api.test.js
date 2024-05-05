@@ -27,8 +27,8 @@ describe("users", () => {
       .post("/api/v1/users/register")
       .send(newUser)
       .expect(201);
-    assert.strictEqual(res.body.username, newUser.username);
-    assert.strictEqual(res.body.email, newUser.email);
+    assert.strictEqual(res.body.data.user.username, newUser.username);
+    assert.strictEqual(res.body.data.user.email, newUser.email);
 
     const usersAtEnd = await helper.usersInDb();
 
@@ -37,7 +37,7 @@ describe("users", () => {
 
   test("a user with a duplicate username cannot register", async () => {
     const usersAtStart = await helper.usersInDb();
-
+    console.log("users at start are", usersAtStart);
     const newUser = {
       username: "minty",
       email: "minty@me.com",
@@ -45,14 +45,26 @@ describe("users", () => {
       // passwordConfirm: "sekret"
     };
 
-    const result = await api
+    await api
       .post("/api/v1/users/register")
       .send(newUser)
-      .expect(400);
-    const usersAtEnd = await helper.usersInDb();
+      .expect(201);
 
+    const duplicateUser = {
+      username: "minty",
+      email: "peas@me.com",
+      password: "sekret"
+      // passwordConfirm: "sekret"
+    };
+    const result = await api
+      .post("/api/v1/users/register")
+      .send(duplicateUser)
+      .expect(400);
+
+    const usersAtEnd = await helper.usersInDb();
+    console.log("users at end are", usersAtEnd);
     assert(result.body.msg.includes("Duplicate field value"));
-    assert.strictEqual(usersAtEnd.length, usersAtStart.length);
+    assert.strictEqual(usersAtEnd.length, 1);
   });
 
   describe("when a user is registered and there are some items in the database", () => {
