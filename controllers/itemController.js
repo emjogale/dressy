@@ -6,7 +6,7 @@ const User = require("./../models/user");
 const catchAsync = require("./../utils/catchAsync");
 
 const dest =
-  process.env.NODE_ENV === "test" ? "tests/img" : "public/assets/img";
+  process.env.NODE_ENV === "test" ? "tests/tempImages" : "public/assets/img";
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {

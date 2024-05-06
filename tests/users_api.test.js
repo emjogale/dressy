@@ -36,8 +36,6 @@ describe("users", () => {
   });
 
   test("a user with a duplicate username cannot register", async () => {
-    const usersAtStart = await helper.usersInDb();
-    console.log("users at start are", usersAtStart);
     const newUser = {
       username: "minty",
       email: "minty@me.com",
@@ -62,7 +60,7 @@ describe("users", () => {
       .expect(400);
 
     const usersAtEnd = await helper.usersInDb();
-    console.log("users at end are", usersAtEnd);
+
     assert(result.body.msg.includes("Duplicate field value"));
     assert.strictEqual(usersAtEnd.length, 1);
   });
