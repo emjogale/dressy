@@ -25,6 +25,13 @@ const userSchema = mongoose.Schema({
     minlength: 6,
     select: false
   },
+
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+
+  // TODO: work out how password confirm can work when a user has created an item - as this triggers the save() function and therefore requires password confirm?
   // passwordConfirm: {
   //   type: String,
   //   required: [true, "please confirm your password"],
@@ -37,10 +44,7 @@ const userSchema = mongoose.Schema({
   //     message: "Passwords don"t match"
   //   }
   // },
-  isAdmin: {
-    type: Boolean,
-    default: false
-  },
+  // passwordChangedAt: Date
   items: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -69,6 +73,14 @@ userSchema.pre("save", async function(next) {
 
 userSchema.methods.correctPassword = async function(password, userPassword) {
   return await bcrypt.compare(password, userPassword);
+};
+
+// TODO: complete this when add in password change function
+userSchema.methods.changedPassword = function(JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    console.log(this.passwordChangedAt, JWTTimestamp);
+  }
+  return false;
 };
 
 const User = mongoose.model("User", userSchema);

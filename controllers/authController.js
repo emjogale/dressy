@@ -1,8 +1,16 @@
-// all functions related to authentication
+const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/user");
 const AppError = require("../utils/appError");
+
+const getTokenFrom = req => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+  return null;
+};
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -50,4 +58,26 @@ exports.login = catchAsync(async (req, res, next) => {
     username: user.username,
     id: user._id
   });
+});
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // get the token check if it exists
+  const token = getTokenFrom(req);
+  if (!token) {
+    return next(new AppError("You are not authorized", 401));
+  }
+  const decodedToken = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET
+  );
+  // check if user still exists
+  const user = await User.findById(decodedToken.id);
+  if (!user) {
+    return next(new AppError("The user no longer exists", 401));
+  }
+  // TODO: check if user changed password after the token was issued
+
+  // if all these tests pass then grant access to protected route
+  req.user = user;
+  next();
 });
