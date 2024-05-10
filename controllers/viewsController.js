@@ -2,7 +2,7 @@ const Item = require("../models/item");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
-loggedIn = true;
+const loggedIn = true;
 
 exports.getHomeView = catchAsync(async (req, res) => {
   // get item data

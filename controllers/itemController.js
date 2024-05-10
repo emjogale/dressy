@@ -1,6 +1,7 @@
 const multer = require("multer");
 const AppError = require("../utils/appError");
 const Item = require("./../models/item");
+const User = require("./../models/user");
 const catchAsync = require("./../utils/catchAsync");
 
 const dest =
@@ -61,10 +62,19 @@ exports.getItemById = catchAsync(async (req, res, next) => {
 });
 
 exports.createItem = catchAsync(async (req, res, next) => {
-  const { title, desc, category, size, price, onSale, secretItem } = req.body;
+  const {
+    title,
+    desc,
+    category,
+    size,
+    price,
+    onSale,
+    secretItem,
+    user
+  } = req.body;
 
-  // TODO: get user from req or from the auth section?? Is it enough that they have passed the protect part so we can now use the id from the req?
-  const { user } = req;
+  const userObj = await User.findById(req.body.user);
+
   const item = new Item({
     title: title,
     img: req.file.filename,
@@ -74,11 +84,14 @@ exports.createItem = catchAsync(async (req, res, next) => {
     price: price,
     onSale: onSale,
     secretItem: secretItem,
-    user: user.id
+    user: user
   });
+
   const newItem = await item.save();
-  user.items = user.items.concat(newItem._id);
-  await user.save();
+
+  await User.findById(userObj.id);
+  userObj.items = userObj.items.concat(newItem._id);
+  await userObj.save();
 
   res.status(201).json({
     status: "success",

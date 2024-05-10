@@ -95,6 +95,7 @@ describe("users", () => {
         .post("/api/v1/users/login")
         .send(patchyLoginDetails);
       const { token } = logInResponse.body;
+
       //create an item
       await api
         .post("/api/v1/items")
@@ -104,6 +105,7 @@ describe("users", () => {
         .field("price", 35)
         .field("desc", "trousers")
         .field("size", "10")
+        .field("user", `${logInResponse.body.id}`)
         .attach("img", "tests/img/coat.webp")
         .set({ Authorization: `Bearer ${token}` })
         .expect(201)

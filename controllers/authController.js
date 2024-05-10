@@ -71,13 +71,14 @@ exports.protect = catchAsync(async (req, res, next) => {
     process.env.JWT_SECRET
   );
   // check if user still exists
-  const user = await User.findById(decodedToken.id);
-  if (!user) {
+  const currentUser = await User.findById(decodedToken.id);
+  if (!currentUser) {
     return next(new AppError("The user no longer exists", 401));
   }
   // TODO: check if user changed password after the token was issued
 
   // if all these tests pass then grant access to protected route
-  req.user = user;
+  req.user = currentUser;
+  console.log("in the auth functioon the use is", req.user);
   next();
 });
