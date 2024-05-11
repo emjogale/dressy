@@ -44,7 +44,6 @@ exports.getAllItems = catchAsync(async (req, res) => {
 
   res.status(200).json({
     status: "success",
-    results: allItems,
     data: allItems
   });
 });

@@ -8,8 +8,7 @@ router.get("/", viewsController.getHomeView);
 router.get("/item/:slug", viewsController.getItem);
 router.get("/sell", viewsController.getSellForm);
 router.get("/users/register", viewsController.getRegisterForm);
-router.get("/about", (req, res) => {
-  res.status(200).render("about");
-});
+router.get("/users/login", viewsController.getLoginForm);
+router.get("/about", viewsController.getAboutView);
 
 module.exports = router;

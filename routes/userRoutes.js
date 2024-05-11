@@ -4,9 +4,12 @@ const router = express.Router();
 const userController = require("./../controllers/userController");
 const authController = require("./../controllers/authController");
 
-// we only need the post function for the register route
+// we only need the post function for these routes
 router.post("/register", authController.register);
 router.post("/login", authController.login);
+
+router.post("/forgotPassword", authController.login);
+router.post("/resetPassword", authController.login);
 
 router.route("/").get(userController.getAllUsers);
 

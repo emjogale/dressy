@@ -10,7 +10,6 @@ exports.getAllUsers = catchAsync(async (req, res) => {
 
   res.status(200).json({
     status: "success",
-    results: allUsers,
     data: allUsers
   });
 });

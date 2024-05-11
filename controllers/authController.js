@@ -79,6 +79,10 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // if all these tests pass then grant access to protected route
   req.user = currentUser;
-  console.log("in the auth functioon the use is", req.user);
+
   next();
 });
+
+exports.forgotPassword = (req, res, next) => {};
+
+exports.resetPassword = (req, res, next) => {};
