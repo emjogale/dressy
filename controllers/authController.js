@@ -18,14 +18,20 @@ const signToken = id => {
   });
 };
 
+// const sendToken = (user, statusCode, res) => {
+
+// }
+
 exports.register = catchAsync(async (req, res, next) => {
   const { username, email, password } = req.body;
   const newUser = new User({
     username: username,
     email: email,
-    password: password
+    password: password,
+    role: req.body.role
     // passwordConfirm: passwordConfirm
   });
+
   const savedUser = await newUser.save();
 
   const token = signToken(savedUser._id);
@@ -83,6 +89,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+// exports.restrictTo
 exports.forgotPassword = (req, res, next) => {};
 
 exports.resetPassword = (req, res, next) => {};

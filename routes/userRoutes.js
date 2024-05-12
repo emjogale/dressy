@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("./../controllers/userController");
 const authController = require("./../controllers/authController");
+// const viewsController = require("./../controllers/viewsController");
 
 // we only need the post function for these routes
 router.post("/register", authController.register);

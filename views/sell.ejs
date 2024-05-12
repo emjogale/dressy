@@ -36,6 +36,8 @@
                 method="POST"
                 enctype="multipart/form-data"
                 id="create-item"
+                novalidate
+                class="validated-form"
               >
                 <div class="form-floating">
                   <input
@@ -43,6 +45,7 @@
                     id="title"
                     type="text"
                     name="title"
+                    required
                     />
                   <label for="title">Item</label>
                   
@@ -56,7 +59,7 @@
                     style="height: 12rem"
                     name="desc"
                     form="create-item"
-      
+      required
                   ></textarea>
                   <label for="desc">Description</label>
                   <div

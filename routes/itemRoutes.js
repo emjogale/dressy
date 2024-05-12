@@ -24,7 +24,11 @@ router
 router
   .route("/:id")
   .get(itemController.getItemById)
-  .delete(itemController.deleteItem)
+  .delete(
+    authController.protect,
+    // authController.restrictTo("owner"),
+    itemController.deleteItem
+  )
   .patch(itemController.updateItem);
 
 module.exports = router;

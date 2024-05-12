@@ -19,16 +19,16 @@ const userSchema = mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, "please provide a valid email"]
   },
+  role: {
+    type: String,
+    enum: ["user", "owner", "admin"],
+    default: "user"
+  },
   password: {
     type: String,
     required: [true, "please provide a password"],
     minlength: 6,
     select: false
-  },
-
-  isAdmin: {
-    type: Boolean,
-    default: false
   },
 
   // TODO: work out how password confirm can work when a user has created an item - as this triggers the save() function and therefore requires password confirm?
