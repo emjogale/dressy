@@ -23,13 +23,13 @@ const signToken = id => {
 // }
 
 exports.register = catchAsync(async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, passwordConfirm, role } = req.body;
   const newUser = new User({
     username: username,
     email: email,
     password: password,
-    role: req.body.role
-    // passwordConfirm: passwordConfirm
+    role: role,
+    passwordConfirm: passwordConfirm
   });
 
   const savedUser = await newUser.save();
@@ -90,6 +90,25 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // exports.restrictTo
-exports.forgotPassword = (req, res, next) => {};
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    // roles [admin, user]
+    if (!roles.includes(req.user.role)) {
+      return next(new AppError("You are not authorized", 403));
+    }
+    next();
+  };
+};
 
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  //identify user by email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError("Email address not linked to a user"), 404);
+  }
+  //generate reset token
+  const resetToken = user.createPasswordResetToken;
+  await user.save();
+  // send it to users email
+});
 exports.resetPassword = (req, res, next) => {};

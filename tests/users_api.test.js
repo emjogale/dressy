@@ -18,8 +18,8 @@ describe("users", () => {
     const newUser = {
       username: "bunty",
       email: "bunt@me.com",
-      password: "sekret"
-      // passwordConfirm: "sekret"
+      password: "sekret",
+      passwordConfirm: "sekret"
     };
     const usersAtStart = await helper.usersInDb();
 
@@ -37,10 +37,10 @@ describe("users", () => {
 
   test("a user with a duplicate username cannot register", async () => {
     const newUser = {
-      username: "minty",
-      email: "minty@me.com",
-      password: "sekret"
-      // passwordConfirm: "sekret"
+      username: "mintypeas",
+      email: "mintypeas@me.com",
+      password: "sekret",
+      passwordConfirm: "sekret"
     };
 
     await api
@@ -49,10 +49,10 @@ describe("users", () => {
       .expect(201);
 
     const duplicateUser = {
-      username: "minty",
+      username: "mintypeas",
       email: "peas@me.com",
-      password: "sekret"
-      // passwordConfirm: "sekret"
+      password: "sekret",
+      passwordConfirm: "sekret"
     };
     const result = await api
       .post("/api/v1/users/register")
@@ -75,7 +75,8 @@ describe("users", () => {
       const patchy = {
         username: "patchy",
         email: "patchy@me.com",
-        password: "sekret"
+        password: "sekret",
+        passwordConfirm: "sekret"
       };
       //register
       await api
@@ -88,7 +89,8 @@ describe("users", () => {
     test("they can create a new item", async () => {
       const patchyLoginDetails = {
         email: "patchy@me.com",
-        password: "sekret"
+        password: "sekret",
+        passwordConfirm: "sekret"
       };
       //login
       const logInResponse = await api
@@ -145,6 +147,25 @@ describe("users", () => {
       assert(result.body.msg.includes("Please describe the item"));
     });
   });
+
+  // TODO: test for updating item if it belongs to the user
+  // TODO: test for deleting item if it belongs to the user
+  // TODO: the inverse of both of the above
+
+  // describe("deletion of an item", () => {
+  //   test("succeeds with status code 204 if id is valid", async () => {
+  //     const itemsAtStart = await helper.itemsInDb();
+
+  //     const itemToDelete = itemsAtStart[0];
+
+  //     await api.delete(`/api/v1/items/${itemToDelete.id}`).expect(204);
+
+  //     const itemsAtEnd = await helper.itemsInDb();
+
+  //     const descrips = itemsAtEnd.map(x => x.desc);
+  //     assert(!descrips.includes(itemToDelete.desc));
+  //   });
+  // });
   after(() => {
     mongoose.connection.close();
   });

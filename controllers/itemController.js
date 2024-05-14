@@ -90,7 +90,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
 
   await User.findById(userObj.id);
   userObj.items = userObj.items.concat(newItem._id);
-  await userObj.save();
+  await userObj.save({ validateBeforeSave: false });
 
   res.status(201).json({
     status: "success",

@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", true);
@@ -21,7 +22,7 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["user", "owner", "admin"],
+    enum: ["user", "admin"],
     default: "user"
   },
   password: {
@@ -32,19 +33,21 @@ const userSchema = mongoose.Schema({
   },
 
   // TODO: work out how password confirm can work when a user has created an item - as this triggers the save() function and therefore requires password confirm?
-  // passwordConfirm: {
-  //   type: String,
-  //   required: [true, "please confirm your password"],
+  passwordConfirm: {
+    type: String,
+    required: [true, "please confirm your password"],
 
-  //   validate: {
-  //     /// This only works on SAVE (not findOneAndUpdate etc)
-  //     validator: function(pswd) {
-  //       return pswd === this.password;
-  //     },
-  //     message: "Passwords don"t match"
-  //   }
-  // },
+    validate: {
+      /// This only works on SAVE (not findOneAndUpdate etc)
+      validator: function(pswd) {
+        return pswd === this.password;
+      },
+      message: 'Passwords don"t match'
+    }
+  },
   // passwordChangedAt: Date
+  passwordResetToken: String,
+  passwordResetExpires: String,
   items: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -73,6 +76,19 @@ userSchema.pre("save", async function(next) {
 
 userSchema.methods.correctPassword = async function(password, userPassword) {
   return await bcrypt.compare(password, userPassword);
+};
+
+userSchema.methods.createPasswordResetToken = function() {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  console.log({ resetToken }, this.passwordResetToken);
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 // TODO: complete this when add in password change function

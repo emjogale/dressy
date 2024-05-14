@@ -57,29 +57,6 @@ describe("when there are initially some items saved", () => {
     assert(titles.includes("long coat"));
   });
 
-  // Also - how do you mimic userid in the tests??
-  // describe("addition of a new item", () => {
-  //   test("succeeds with valid data", async () => {
-  //     await api
-  //       .post("/api/v1/items")
-  //       .set("Content-type", "multipart/form-data")
-  //       .field("title", "trousers")
-  //       .field("category", "trousers")
-  //       .field("price", 35)
-  //       .field("desc", "trousers")
-  //       .field("size", "10")
-  //       .attach("img", "tests/img/coat.webp")
-  //       .expect(201)
-  //       .expect("Content-Type", /application\/json/);
-
-  //     const itemsAtEnd = await helper.itemsInDb();
-  //     assert.strictEqual(itemsAtEnd.length, helper.initialItems.length + 1);
-
-  //     const descrips = itemsAtEnd.map(item => item.desc);
-  //     assert(descrips.includes("trousers"));
-  //   });
-
-  // });
   describe("viewing a specific item", () => {
     test("suceeds with a valid id", async () => {
       const itemsAtStart = await helper.itemsInDb();
@@ -101,21 +78,6 @@ describe("when there are initially some items saved", () => {
     });
   });
 
-  // need to refactor this one with log in logic
-  // describe("deletion of an item", () => {
-  //   test("succeeds with status code 204 if id is valid", async () => {
-  //     const itemsAtStart = await helper.itemsInDb();
-
-  //     const itemToDelete = itemsAtStart[0];
-
-  //     await api.delete(`/api/v1/items/${itemToDelete.id}`).expect(204);
-
-  //     const itemsAtEnd = await helper.itemsInDb();
-
-  //     const descrips = itemsAtEnd.map(x => x.desc);
-  //     assert(!descrips.includes(itemToDelete.desc));
-  //   });
-  // });
   after(() => {
     mongoose.connection.close();
   });
