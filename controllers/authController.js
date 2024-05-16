@@ -52,11 +52,10 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // check this user is registered
   const user = await User.findOne({ email }).select("+password");
-  // use the correctPassword checker defined in the user model
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Invalid password or email", 401));
   }
-  // if all is correct then send token to user
+  // send token to user
   const token = signToken(user._id);
   res.status(200).json({
     status: "success",
@@ -81,7 +80,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (!currentUser) {
     return next(new AppError("The user no longer exists", 401));
   }
-  // TODO: check if user changed password after the token was issued
 
   // if all these tests pass then grant access to protected route
   req.user = currentUser;
@@ -89,7 +87,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
-// exports.restrictTo
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     // roles [admin, user]
@@ -100,15 +97,16 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-exports.forgotPassword = catchAsync(async (req, res, next) => {
-  //identify user by email
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) {
-    return next(new AppError("Email address not linked to a user"), 404);
-  }
-  //generate reset token
-  const resetToken = user.createPasswordResetToken;
-  await user.save();
-  // send it to users email
-});
+//TODO: work on this part - need to send token to user's email address
+// exports.forgotPassword = catchAsync(async (req, res, next) => {
+//   //identify user by email
+//   const user = await User.findOne({ email: req.body.email });
+//   if (!user) {
+//     return next(new AppError("Email address not linked to a user"), 404);
+//   }
+//   //generate reset token
+//   const resetToken = user.createPasswordResetToken();
+//   await user.save({ validateBeforeSave: false });
+//   // send it to users email using sendToken
+// });
 exports.resetPassword = (req, res, next) => {};

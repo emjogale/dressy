@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", true);
 const validator = require("validator");
-// const uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
@@ -32,7 +31,6 @@ const userSchema = mongoose.Schema({
     select: false
   },
 
-  // TODO: work out how password confirm can work when a user has created an item - as this triggers the save() function and therefore requires password confirm?
   passwordConfirm: {
     type: String,
     required: [true, "please confirm your password"],
@@ -45,7 +43,7 @@ const userSchema = mongoose.Schema({
       message: 'Passwords don"t match'
     }
   },
-  // passwordChangedAt: Date
+
   passwordResetToken: String,
   passwordResetExpires: String,
   items: [
@@ -89,14 +87,6 @@ userSchema.methods.createPasswordResetToken = function() {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
-};
-
-// TODO: complete this when add in password change function
-userSchema.methods.changedPassword = function(JWTTimestamp) {
-  if (this.passwordChangedAt) {
-    console.log(this.passwordChangedAt, JWTTimestamp);
-  }
-  return false;
 };
 
 const User = mongoose.model("User", userSchema);

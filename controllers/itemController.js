@@ -33,10 +33,6 @@ const upload = multer({
 exports.uploadItemImage = upload.single("img");
 
 exports.getAllItems = catchAsync(async (req, res) => {
-  // make a shallow copy of the req.qery by destructuring
-  // const queryObj = { ...req.query };
-  //TODO: add in fields here for when we are filtering (95)
-
   const allItems = await Item.find({}).populate("user", {
     username: 1,
     email: 1
@@ -88,7 +84,6 @@ exports.createItem = catchAsync(async (req, res, next) => {
 
   const newItem = await item.save();
 
-  await User.findById(userObj.id);
   userObj.items = userObj.items.concat(newItem._id);
   await userObj.save({ validateBeforeSave: false });
 
@@ -114,7 +109,19 @@ exports.updateItem = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteItem = catchAsync(async (req, res, next) => {
-  await Item.findByIdAndDelete(req.params.id);
+  const { user } = req;
+  const item = await Item.findById(req.params.id);
+
+  if (!user || item.user.toString() !== user.id.toString()) {
+    return next(new AppError("Operation not permitted", 401));
+  }
+  user.items = user.items.filter(
+    thing => thing.toString() !== item.id.toString()
+  );
+
+  await user.save({ validateBeforeSave: false });
+  await item.remove();
+
   res.status(204).json({
     status: "success",
     data: null

@@ -69,11 +69,6 @@ itemSchema.pre("save", function(next) {
   next();
 });
 
-// itemSchema.post("save", function(doc, next) {
-//   console.log("post doc is ", doc);
-//   next();
-// });
-
 // Query middleware for any mongoose function starting with find - eg findOne etc
 itemSchema.pre(/^find/, function(next) {
   this.find({ secretItem: { $ne: true } });
