@@ -5,35 +5,30 @@ const assert = require("node:assert");
 const app = require("../app");
 
 const api = supertest(app);
-const helper = require("./test_helper");
+const { initialItems, initialUsers, itemsInDb } = require("./test_helper");
 
 const Item = require("../models/item");
 const User = require("../models/user");
 
-const testUser = {
-  username: "testuser",
-  email: "testuser@me.com",
-  password: "sekret"
-};
-
 // eslint-disable-next-line no-unused-vars
 let token;
 
-describe("when there are initially some items saved", () => {
+describe("item api", () => {
   beforeEach(async () => {
     await Item.deleteMany({});
     await User.deleteMany({});
-    const itemObjects = helper.initialItems.map(item => new Item(item));
-    const promiseArray = itemObjects.map(item => item.save());
 
-    await Promise.all(promiseArray);
-
+    // create a test user and save the corresponding token
+    const testUser = initialUsers[0];
     await api.post("/api/v1/users/register").send(testUser);
-
-    const response = await api.post("/api/v1/login").send(testUser);
-
+    const res = await api.post("/api/v1/login").send(testUser);
     // eslint-disable-next-line prefer-destructuring
-    token = response.body.token;
+    token = res.body.token;
+
+    // save all the initial items to the database
+    const itemObjects = initialItems.map(item => new Item(item));
+    const promiseArray = itemObjects.map(item => item.save());
+    await Promise.all(promiseArray);
   });
   test("items are returned as json", async () => {
     const res = await api
@@ -41,7 +36,7 @@ describe("when there are initially some items saved", () => {
       .expect(200)
       .expect("Content-Type", /application\/json/);
 
-    assert.strictEqual(res.body.data.length, helper.initialItems.length);
+    assert.strictEqual(res.body.data.length, initialItems.length);
   });
 
   test("there are two items", async () => {
@@ -59,7 +54,7 @@ describe("when there are initially some items saved", () => {
 
   describe("viewing a specific item", () => {
     test("suceeds with a valid id", async () => {
-      const itemsAtStart = await helper.itemsInDb();
+      const itemsAtStart = await itemsInDb();
 
       const itemToView = itemsAtStart[0];
 
