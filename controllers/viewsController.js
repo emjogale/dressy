@@ -13,10 +13,8 @@ exports.getAboutView = catchAsync(async (req, res) => {
   res.status(200).render("about", { loggedIn: loggedIn });
 });
 
-// Display detail of specific item
 exports.getItem = catchAsync(async (req, res, next) => {
   const item = await Item.findOne({ slug: req.params.slug });
-  console.log("item is", item);
   if (!item) {
     return next(new AppError("There is no item with that name", 404));
   }

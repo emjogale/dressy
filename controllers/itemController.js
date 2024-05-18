@@ -95,6 +95,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
   });
 });
 
+// need to protect this route to user who created the item
 exports.updateItem = catchAsync(async (req, res, next) => {
   const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -113,14 +114,15 @@ exports.deleteItem = catchAsync(async (req, res, next) => {
   const item = await Item.findById(req.params.id);
 
   if (!user || item.user.toString() !== user.id.toString()) {
-    return next(new AppError("Operation not permitted", 401));
+    return next(new AppError("Operation not permitted", 403));
   }
+  await item.deleteOne();
+
   user.items = user.items.filter(
     thing => thing.toString() !== item.id.toString()
   );
 
   await user.save({ validateBeforeSave: false });
-  await item.remove();
 
   res.status(204).json({
     status: "success",

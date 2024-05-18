@@ -89,6 +89,4 @@ userSchema.methods.createPasswordResetToken = function() {
   return resetToken;
 };
 
-const User = mongoose.model("User", userSchema);
-// userSchema.plugin(uniqueValidator);
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);

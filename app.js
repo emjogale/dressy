@@ -39,7 +39,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// the routers are also middleware to be added to these specific routes
+// the routers are middleware added to these specific routes
 app.use("/", viewRouter);
 app.use("/api/v1/items", itemRouter);
 app.use("/api/v1/users", userRouter);
