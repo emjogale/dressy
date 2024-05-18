@@ -24,8 +24,8 @@ const initialUsers = [
   {
     username: "minty",
     email: "peas@me.com",
-    password: "sekret"
-    // passwordConfirm: "sekret"
+    password: "sekret",
+    passwordConfirm: "sekret"
   }
 ];
 

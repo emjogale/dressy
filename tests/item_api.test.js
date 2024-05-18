@@ -6,7 +6,6 @@ const app = require("../app");
 
 const api = supertest(app);
 const { initialItems, initialUsers, itemsInDb } = require("./test_helper");
-
 const Item = require("../models/item");
 const User = require("../models/user");
 

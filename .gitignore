@@ -1,6 +1,4 @@
 node_modules/
 .env
 .DS_Store
-mongo.js
-temp.js
 tempImages

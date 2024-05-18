@@ -18,10 +18,6 @@ const signToken = id => {
   });
 };
 
-// const sendToken = (user, statusCode, res) => {
-
-// }
-
 exports.register = catchAsync(async (req, res, next) => {
   const { username, email, password, passwordConfirm, role } = req.body;
   const newUser = new User({
@@ -98,15 +94,5 @@ exports.restrictTo = (...roles) => {
 };
 
 //TODO: work on this part - need to send token to user's email address
-// exports.forgotPassword = catchAsync(async (req, res, next) => {
-//   //identify user by email
-//   const user = await User.findOne({ email: req.body.email });
-//   if (!user) {
-//     return next(new AppError("Email address not linked to a user"), 404);
-//   }
-//   //generate reset token
-//   const resetToken = user.createPasswordResetToken();
-//   await user.save({ validateBeforeSave: false });
-//   // send it to users email using sendToken
-// });
+exports.forgotPassword = (req, res, next) => {};
 exports.resetPassword = (req, res, next) => {};
