@@ -41,15 +41,15 @@ exports.register = catchAsync(async (req, res, next) => {
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   // check email and password exist
-  if (!email || !password) {
+  if (!username || !password) {
     return next(new AppError("Please provide email and password", 400));
   }
   // check this user is registered
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ username }).select("+password");
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Invalid password or email", 401));
+    return next(new AppError("Invalid password or username", 401));
   }
   // send token to user
   const token = signToken(user._id);
@@ -57,7 +57,10 @@ exports.login = catchAsync(async (req, res, next) => {
     status: "success",
     token,
     username: user.username,
-    id: user._id
+    id: user._id,
+    data: {
+      user: username
+    }
   });
 });
 
