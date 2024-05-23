@@ -119,6 +119,48 @@ describe("item api", () => {
       assert(result.body.msg.includes("Please describe the item"));
     });
 
+    test("they can update an item they created", async () => {
+      await api
+        .post("/api/v1/items")
+        .set("Content-type", "multipart/form-data")
+        .field("title", "trousers")
+        .field("category", "trousers")
+        .field("price", 35)
+        .field("desc", "trousers")
+        .field("size", "10")
+        .field("user", `${user}`)
+        .attach("img", "tests/img/coat.webp")
+        .set({ Authorization: `Bearer ${token}` });
+
+      const itemsWithOneAdded = await itemsInDb();
+
+      const itemToUpdate = itemsWithOneAdded[itemsWithOneAdded.length - 1];
+
+      const newItem = {
+        title: "patchwork coat",
+        img: "long-coat.webp",
+        category: "coats",
+        price: 250,
+        desc: "updated description",
+        size: "14"
+      };
+
+      await api
+        .put(`/api/v1/items/${itemToUpdate.id}`)
+        .send(newItem)
+        .set({ Authorization: `Bearer ${token}` })
+        .expect(200);
+
+      const itemsAtEnd = await itemsInDb();
+      const updatedItem = itemsAtEnd.find(item => item.id === itemToUpdate.id);
+
+      assert.strictEqual(updatedItem.title, newItem.title);
+      assert.strictEqual(updatedItem.category, newItem.category);
+      assert.strictEqual(updatedItem.price, newItem.price);
+      assert.strictEqual(updatedItem.desc, newItem.desc);
+      assert.strictEqual(updatedItem.size, newItem.size);
+    });
+
     describe("deletion of an item", () => {
       test("succeeds with status code 204 by the user who created the item", async () => {
         const res = await api

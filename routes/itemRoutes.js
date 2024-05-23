@@ -16,6 +16,6 @@ router
   .route("/:id")
   .get(itemController.getItemById)
   .delete(authController.protect, itemController.deleteItem)
-  .patch(authController.protect, itemController.updateItem);
+  .put(authController.protect, itemController.updateItem);
 
 module.exports = router;
