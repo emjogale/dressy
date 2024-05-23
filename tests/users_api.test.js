@@ -64,6 +64,22 @@ describe("users", () => {
     assert.strictEqual(usersAtEnd.length, 1);
   });
 
+  test("a user cannot register without an email ", async () => {
+    const newUser = {
+      username: "bunty",
+      password: "sekret",
+      passwordConfirm: "sekret"
+    };
+    const usersAtStart = await usersInDb();
+    const res = await api
+      .post("/api/v1/users/register")
+      .send(newUser)
+      .expect(400);
+
+    const usersAtEnd = await usersInDb();
+    console.log("error is", res.body.error);
+    // assert.strictEqual(res.body.error)
+  });
   after(() => {
     mongoose.connection.close();
   });
